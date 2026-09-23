@@ -163,7 +163,7 @@
         <img id="lightboxImg" src="" alt="Ảnh minh chứng" class="rounded-lg shadow-md max-w-full max-h-[70vh] object-contain cursor-zoom-in border border-slate-200" onclick="window.open(this.src, '_blank')" title="Bấm vào để mở ảnh kích thước gốc trong tab mới">
       </div>
       <div class="px-5 py-3 bg-white border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span>💡 Mẹo: Bấm vào ảnh để mở ảnh kích thước gốc trong tab mới.</span>
+        <span>Nhấp vào ảnh để mở kích thước gốc trong tab mới.</span>
         <button onclick="closeLightbox()" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">Đóng</button>
       </div>
     </div>
@@ -184,7 +184,7 @@
             <span class="px-2 py-0.5 text-xs font-mono font-bold bg-indigo-50 text-indigo-700 rounded border border-indigo-200">PQ-SDT-KH</span>
             <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Phân quyền & Khóa ẩn SĐT Khách hàng</h1>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Danh sách cây 2 cấp: 7 Phân hệ • 27 Vị trí giao diện • Minh chứng ảnh thực tế</p>
+          <p class="text-xs text-slate-500 mt-0.5">7 phân hệ • 27 vị trí kiểm thử • Minh chứng ảnh thực tế</p>
         </div>
       </div>
 
@@ -200,7 +200,7 @@
         </div>
 
         <!-- Copy Link Buttons -->
-        <button id="btnCopyBossLink" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg border border-indigo-200 transition flex items-center space-x-1.5" title="Sao chép link đăng nhập thẳng cho Boss (?u=chi)">
+        <button id="btnCopyBossLink" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg border border-indigo-200 transition flex items-center space-x-1.5" title="Sao chép link trực tiếp cho Boss (?u=chi)">
           <i class="fa-solid fa-crown text-amber-500"></i>
           <span>Link Boss</span>
         </button>
@@ -243,26 +243,26 @@
         <div class="space-y-1">
           <div class="flex flex-wrap items-center gap-2">
             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-600 text-white flex items-center space-x-1">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>LƯU Ý QUAN TRỌNG KHI KIỂM THỬ</span>
+              <i class="fa-solid fa-flask"></i>
+              <span>MÔI TRƯỜNG TEST</span>
             </span>
             <span class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-white text-rose-700 border border-amber-300 shadow-xs">
-              Yêu cầu phiên bản: 3.1.4+ (Development)
+              Phiên bản 3.1.4+ (Dev)
             </span>
           </div>
           <h2 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">
-            Vui lòng mở ứng dụng <span class="text-amber-800 underline font-extrabold">DRV BASE Development</span> trên Desktop để kiểm tra
+            Mở ứng dụng <span class="text-amber-800 underline font-bold">DRV BASE Development</span> trên Desktop để nghiệm thu
           </h2>
           <p class="text-xs text-slate-600 leading-relaxed">
-            ⚠️ <b>Tuyệt đối không kiểm tra trên phiên bản Production</b>. Tính năng phân quyền & khóa bảo vệ số điện thoại khách hàng 3 lớp được phát hành và hỗ trợ từ <b>phiên bản 3.1.4+</b> trên môi trường Development.
+            Chỉ kiểm tra trên bản Development từ 3.1.4+ trở lên. Không test trên bản Production.
           </p>
         </div>
       </div>
 
       <div class="shrink-0 flex items-center space-x-2 self-end md:self-center">
-        <button onclick="openLightbox('images/drv-base-development.png', 'Biểu tượng ứng dụng DRV BASE Development')" class="px-3.5 py-2 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+        <button onclick="openLightbox('images/drv-base-development.png', 'Biểu tượng ứng dụng DRV BASE Development')" class="px-3.5 py-2 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm" title="Bấm xem icon Desktop">
           <i class="fa-solid fa-desktop text-amber-700"></i>
-          <span>Xem Icon Desktop</span>
+          <span>Xem icon Desktop</span>
         </button>
       </div>
     </div>
@@ -270,18 +270,18 @@
     <!-- KPI STATS CARDS -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Quy mô kiểm thử</span>
-        <p class="text-2xl font-bold text-slate-900 mt-1">7 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 27 <span class="text-xs text-slate-400 font-normal">màn hình</span></p>
+        <span class="text-xs text-slate-500 font-medium">Quy mô</span>
+        <p class="text-2xl font-bold text-slate-900 mt-1">7 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 27 <span class="text-xs text-slate-400 font-normal">vị trí</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-indigo-400 hover:shadow-md transition group" onclick="switchViewMode('gallery')" title="Bấm để chuyển nhanh sang xem toàn bộ Minh chứng Ảnh">
         <div class="flex items-center justify-between">
-          <span class="text-xs text-slate-500 font-medium">Minh chứng thực tế</span>
+          <span class="text-xs text-slate-500 font-medium">Minh chứng</span>
           <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100 group-hover:bg-indigo-600 group-hover:text-white transition">Xem ảnh ➔</span>
         </div>
-        <p class="text-2xl font-bold text-indigo-600 mt-1">4 <span class="text-xs text-slate-400 font-normal">ảnh chụp app</span></p>
+        <p class="text-2xl font-bold text-indigo-600 mt-1">4 <span class="text-xs text-slate-400 font-normal">ảnh chụp</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu của bạn</span>
+        <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu</span>
         <p id="statsPassedCount" class="text-2xl font-bold text-emerald-600 mt-1">0 / 27</p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
@@ -302,25 +302,25 @@
       <div class="flex items-center bg-slate-100 p-1 rounded-xl w-full md:w-auto">
         <button id="tabTreeMode" onclick="switchViewMode('tree')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm">
           <i class="fa-solid fa-list-tree"></i>
-          <span>Danh sách Cây (27)</span>
+          <span>Danh sách cây (27)</span>
         </button>
         <button id="tabGalleryMode" onclick="switchViewMode('gallery')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
           <i class="fa-solid fa-images text-indigo-500"></i>
-          <span>Minh chứng Ảnh (4)</span>
+          <span>Minh chứng ảnh (4)</span>
         </button>
       </div>
 
       <!-- Center: Search input -->
       <div class="relative w-full md:w-80">
         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-        <input type="text" id="searchInput" placeholder="Tìm kiếm màn hình, menu hoặc vị trí..." class="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-slate-200 focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
+        <input type="text" id="searchInput" placeholder="Tìm màn hình, menu, vị trí..." class="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-slate-200 focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
       </div>
 
       <!-- Right: Tree action buttons -->
       <div id="treeActionGroup" class="flex items-center space-x-2 w-full md:w-auto justify-end">
         <button id="btnExpandAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
           <i class="fa-solid fa-folder-open text-slate-500"></i>
-          <span>Mở hết</span>
+          <span>Mở tất cả</span>
         </button>
         <button id="btnCollapseAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
           <i class="fa-solid fa-folder-closed text-slate-500"></i>
@@ -328,7 +328,7 @@
         </button>
         <button id="btnCheckAll" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg border border-emerald-200 transition flex items-center space-x-1.5 shadow-sm">
           <i class="fa-solid fa-circle-check text-emerald-600"></i>
-          <span>Duyệt ĐẠT tất cả (27)</span>
+          <span>Duyệt Đạt tất cả (27)</span>
         </button>
       </div>
     </div>
@@ -342,10 +342,10 @@
     <div class="p-3.5 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-indigo-800 flex items-center justify-between">
       <div class="flex items-center space-x-2">
         <i class="fa-solid fa-cloud-arrow-up text-indigo-600 text-sm"></i>
-        <span>Kết quả đánh giá được <b>tự động lưu riêng cho tài khoản <code id="lblStorageUser" class="bg-white px-1.5 py-0.5 rounded font-bold border border-indigo-200 text-indigo-900">...</code></b> trên trình duyệt này.</span>
+        <span>Dữ liệu nghiệm thu lưu riêng cho: <code id="lblStorageUser" class="bg-white px-1.5 py-0.5 rounded font-bold border border-indigo-200 text-indigo-900">...</code></span>
       </div>
       <button onclick="resetUserData()" class="text-slate-500 hover:text-rose-600 text-xs font-medium underline ml-2 shrink-0">
-        Khôi phục mặc định (0%)
+        Đặt lại mặc định (0%)
       </button>
     </div>
 
@@ -448,7 +448,7 @@
 
     // Khôi phục dữ liệu mặc định của user
     window.resetUserData = () => {
-      if (!confirm(`Bạn có chắc chắn muốn khôi phục lại trạng thái mặc định (chưa duyệt) của người duyệt [${currentUser.displayName}] không?`)) return;
+      if (!confirm(`Đặt lại kết quả về mặc định (chưa duyệt) cho tài khoản [${currentUser.displayName}]?`)) return;
       const storageKey = getUserStorageKey();
       localStorage.removeItem(storageKey);
       loadUserAcceptanceData();
@@ -577,7 +577,7 @@
 
           <!-- Right: Master Toggle for Module -->
           <div class="flex items-center space-x-3 self-end sm:self-center" onclick="event.stopPropagation()">
-            <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Duyệt cả phân hệ:</span>
+            <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Duyệt phân hệ:</span>
             <label class="master-toggle" title="Gạt để Đạt/Chưa đạt tất cả màn hình trong phân hệ ${domainName}">
               <input type="checkbox" ${isDomainAllPassed ? 'checked' : ''} onchange="toggleDomainAll('${domainName}', this.checked)">
               <span class="master-slider"></span>
@@ -623,7 +623,7 @@
                     ${item.image ? `
                       <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-bold rounded-md border border-purple-200">
                         <i class="fa-solid fa-camera text-purple-600"></i>
-                        <span>Có minh chứng ảnh</span>
+                        <span>Có minh chứng</span>
                       </span>
                     ` : ''}
                   </div>
@@ -631,11 +631,11 @@
                   <!-- Details Grid -->
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
                     <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200/80">
-                      <span class="font-semibold text-slate-700 block mb-0.5"><i class="fa-solid fa-lock text-slate-400 mr-1"></i>Vị trí & Biểu hiện khi khóa:</span>
+                      <span class="font-semibold text-slate-700 block mb-0.5"><i class="fa-solid fa-lock text-slate-400 mr-1"></i>Hành vi khi khóa:</span>
                       <span class="text-slate-800">${item.lockedBehavior}</span>
                     </div>
                     <div class="bg-emerald-50/60 p-2.5 rounded-lg border border-emerald-200/80">
-                      <span class="font-semibold text-emerald-800 block mb-0.5"><i class="fa-solid fa-bolt text-emerald-600 mr-1"></i>Thao tác Boss test nhanh 1 giây:</span>
+                      <span class="font-semibold text-emerald-800 block mb-0.5"><i class="fa-solid fa-bolt text-emerald-600 mr-1"></i>Cách kiểm tra nhanh:</span>
                       <span class="text-emerald-950">${item.testInstruction}</span>
                     </div>
                   </div>
@@ -649,23 +649,19 @@
                           <i class="fa-solid fa-magnifying-glass-plus"></i>
                         </span>
                       </div>
-                      <div class="text-xs space-y-1">
+                      <div class="text-xs space-y-0.5">
                         <div class="font-bold text-purple-900 flex items-center space-x-1.5">
-                          <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                          <span>Ảnh chụp thực tế màn hình (WinForms Dev):</span>
+                          <i class="fa-solid fa-circle-check text-emerald-600 text-xs"></i>
+                          <span>Minh chứng thực tế (WinForms Dev)</span>
                         </div>
-                        <p class="text-[11px] text-slate-600 leading-relaxed">Đã áp dụng khóa SĐT theo đúng yêu cầu bảo mật. Bấm vào ảnh để phóng to toàn màn hình.</p>
-                        <button type="button" onclick="openLightbox('${item.image}', '${item.screenName}')" class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline inline-flex items-center space-x-1">
-                          <span>Xem chi tiết ảnh phóng to</span>
-                          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-                        </button>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">Nhấp vào ảnh để phóng to xem chi tiết giao diện.</p>
                       </div>
                     </div>
                   ` : ''}
 
                   <!-- Note input -->
                   <div class="pt-1">
-                    <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Nhập phản hồi/ghi chú của bạn về màn hình này (nếu có)..." class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50/60 focus:bg-white transition">
+                    <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Ghi chú phản hồi (nếu có)..." class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50/60 focus:bg-white transition">
                   </div>
                 </div>
 
@@ -738,7 +734,7 @@
                   <input type="checkbox" ${isPassed ? 'checked' : ''} onchange="toggleItemStatus('${item.id}', this.checked)">
                   <span class="toggle-slider"></span>
                 </label>
-                <span class="text-xs font-bold ${isPassed ? 'text-emerald-600' : 'text-slate-400'}">${isPassed ? 'ĐẠT' : 'CHƯA'}</span>
+                <span class="text-xs font-bold ${isPassed ? 'text-emerald-600' : 'text-slate-400'}">${isPassed ? 'ĐẠT' : 'CHƯA ĐẠT'}</span>
               </div>
             </div>
 
@@ -748,7 +744,7 @@
               <div class="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
                 <span class="px-3 py-1.5 bg-white/90 backdrop-blur-sm text-slate-900 rounded-lg text-xs font-bold shadow-lg flex items-center space-x-1.5">
                   <i class="fa-solid fa-magnifying-glass-plus"></i>
-                  <span>Xem ảnh phóng to</span>
+                  <span>Xem phóng to</span>
                 </span>
               </div>
             </div>
@@ -756,7 +752,7 @@
             <!-- Description -->
             <div class="p-4 space-y-2 text-xs">
               <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200/80">
-                <span class="font-semibold text-slate-700 block mb-0.5">Biểu hiện thực tế khi khóa:</span>
+                <span class="font-semibold text-slate-700 block mb-0.5">Hành vi khi khóa:</span>
                 <span class="text-slate-800">${item.lockedBehavior}</span>
               </div>
             </div>
@@ -764,7 +760,7 @@
 
           <!-- Note Input in Gallery -->
           <div class="p-4 pt-0">
-            <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Nhập ghi chú phản hồi..." class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50/60 focus:bg-white transition">
+            <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Ghi chú phản hồi (nếu có)..." class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50/60 focus:bg-white transition">
           </div>
         `;
 
