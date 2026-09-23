@@ -142,6 +142,33 @@
     </div>
   </div>
 
+  <!-- LIGHTBOX MODAL PHÓNG TO HÌNH ẢNH MINH CHỨNG -->
+  <div id="imageLightboxModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4" onclick="closeLightbox()">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden border border-slate-200" onclick="event.stopPropagation()">
+      <div class="px-5 py-3.5 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400">
+            <i class="fa-solid fa-image text-sm"></i>
+          </span>
+          <div>
+            <h3 id="lightboxTitle" class="text-sm font-bold text-white leading-tight">Ảnh minh chứng màn hình</h3>
+            <span id="lightboxSub" class="text-[11px] text-slate-400">Chụp thực tế từ giao diện WinForms</span>
+          </div>
+        </div>
+        <button onclick="closeLightbox()" class="text-slate-400 hover:text-white p-1.5 rounded-lg transition" title="Đóng (ESC)">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="p-4 bg-slate-950/5 flex items-center justify-center max-h-[75vh] overflow-auto">
+        <img id="lightboxImg" src="" alt="Ảnh minh chứng" class="rounded-lg shadow-md max-w-full max-h-[70vh] object-contain cursor-zoom-in border border-slate-200" onclick="window.open(this.src, '_blank')" title="Bấm vào để mở ảnh kích thước gốc trong tab mới">
+      </div>
+      <div class="px-5 py-3 bg-white border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <span>💡 Mẹo: Bấm vào ảnh để mở ảnh kích thước gốc trong tab mới.</span>
+        <button onclick="closeLightbox()" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">Đóng</button>
+      </div>
+    </div>
+  </div>
+
   <!-- HEADER TRANG NGHIỆM THU -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
@@ -157,7 +184,7 @@
             <span class="px-2 py-0.5 text-xs font-mono font-bold bg-indigo-50 text-indigo-700 rounded border border-indigo-200">PQ-SDT-KH</span>
             <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Phân quyền & Khóa ẩn SĐT Khách hàng</h1>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Danh sách cây 2 cấp: 7 Phân hệ • 27 Vị trí giao diện người dùng</p>
+          <p class="text-xs text-slate-500 mt-0.5">Danh sách cây 2 cấp: 7 Phân hệ • 27 Vị trí giao diện • Minh chứng ảnh thực tế</p>
         </div>
       </div>
 
@@ -207,8 +234,8 @@
         <p class="text-2xl font-bold text-slate-900 mt-1">7 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 27 <span class="text-xs text-slate-400 font-normal">màn hình</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Chuẩn bảo mật</span>
-        <p class="text-2xl font-bold text-indigo-600 mt-1">3 Lớp <span class="text-xs text-slate-400 font-normal">+ Mask ***</span></p>
+        <span class="text-xs text-slate-500 font-medium">Minh chứng thực tế</span>
+        <p class="text-2xl font-bold text-indigo-600 mt-1">4 <span class="text-xs text-slate-400 font-normal">ảnh chụp app</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
         <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu của bạn</span>
@@ -225,19 +252,32 @@
       </div>
     </div>
 
-    <!-- TOOLBAR: SEARCH & TREE ACTIONS -->
-    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-      <!-- Search input -->
-      <div class="relative w-full sm:w-80">
+    <!-- TOOLBAR: VIEW SWITCHER + SEARCH & TREE ACTIONS -->
+    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Left: View Mode Tabs (Cây vs Ảnh) -->
+      <div class="flex items-center bg-slate-100 p-1 rounded-xl w-full md:w-auto">
+        <button id="tabTreeMode" onclick="switchViewMode('tree')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm">
+          <i class="fa-solid fa-list-tree"></i>
+          <span>Danh sách Cây (27)</span>
+        </button>
+        <button id="tabGalleryMode" onclick="switchViewMode('gallery')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-images text-indigo-500"></i>
+          <span>Minh chứng Ảnh (4)</span>
+        </button>
+      </div>
+
+      <!-- Center: Search input -->
+      <div class="relative w-full md:w-80">
         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
         <input type="text" id="searchInput" placeholder="Tìm kiếm màn hình, menu hoặc vị trí..." class="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-slate-200 focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
       </div>
 
-      <!-- Quick action buttons -->
-      <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+      <!-- Right: Tree action buttons -->
+      <div id="treeActionGroup" class="flex items-center space-x-2 w-full md:w-auto justify-end">
         <button id="btnExpandAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
           <i class="fa-solid fa-folder-open text-slate-500"></i>
-          <span>Mở tất cả</span>
+          <span>Mở hết</span>
         </button>
         <button id="btnCollapseAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
           <i class="fa-solid fa-folder-closed text-slate-500"></i>
@@ -250,8 +290,8 @@
       </div>
     </div>
 
-    <!-- TREE VIEW: LEVEL 1 (MODULES) & LEVEL 2 (SCREENS) -->
-    <div id="treeContainer" class="space-y-4">
+    <!-- MAIN VIEW CONTAINER: RENDERS TREE VIEW OR GALLERY VIEW -->
+    <div id="viewContainer" class="space-y-4">
       <!-- Dynamic render by JavaScript -->
     </div>
 
@@ -262,7 +302,7 @@
         <span>Kết quả đánh giá được <b>tự động lưu riêng cho tài khoản <code id="lblStorageUser" class="bg-white px-1.5 py-0.5 rounded font-bold border border-indigo-200 text-indigo-900">...</code></b> trên trình duyệt này.</span>
       </div>
       <button onclick="resetUserData()" class="text-slate-500 hover:text-rose-600 text-xs font-medium underline ml-2 shrink-0">
-        Khôi phục mặc định
+        Khôi phục mặc định (0%)
       </button>
     </div>
 
@@ -275,13 +315,16 @@
     let userItems = []; // Danh sách items gắn liền với user hiện tại
     let collapsedModules = new Set(); // Theo dõi trạng thái đóng/mở của các phân hệ Level 1
     let searchQuery = '';
+    let currentViewMode = 'tree'; // 'tree' hoặc 'gallery'
 
     // Metadata icon & màu sắc cho 7 Phân hệ Level 1
     const DOMAIN_METADATA = {
       "Quản trị & Phân quyền": { icon: "fa-shield-halved", color: "indigo", badgeClass: "bg-indigo-50 text-indigo-700 border-indigo-200" },
       "Hồ sơ Khách hàng & Lễ tân": { icon: "fa-user-check", color: "blue", badgeClass: "bg-blue-50 text-blue-700 border-blue-200" },
+      "Quản lý Lịch hẹn": { icon: "fa-calendar-days", color: "emerald", badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200" },
       "Lịch hẹn & Đặt lịch": { icon: "fa-calendar-days", color: "emerald", badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200" },
       "Điều trị & Bệnh án": { icon: "fa-tooth", color: "teal", badgeClass: "bg-teal-50 text-teal-700 border-teal-200" },
+      "Chăm sóc Khách hàng (CSKH)": { icon: "fa-comment-sms", color: "sky", badgeClass: "bg-sky-50 text-sky-700 border-sky-200" },
       "Tin nhắn SMS & Chăm sóc KH": { icon: "fa-comment-sms", color: "sky", badgeClass: "bg-sky-50 text-sky-700 border-sky-200" },
       "Thu ngân & Labo Phục hình": { icon: "fa-cash-register", color: "amber", badgeClass: "bg-amber-50 text-amber-700 border-amber-200" },
       "Báo cáo & Thống kê": { icon: "fa-chart-pie", color: "purple", badgeClass: "bg-purple-50 text-purple-700 border-purple-200" }
@@ -292,7 +335,6 @@
       // 1. Xác định Người duyệt (Ưu tiên URL ?u=... rồi đến session/local storage)
       currentUser = AuthSystem.getCurrentUser();
       if (!currentUser) {
-        // Mặc định tự động đăng nhập là 'chi' nếu không có tham số
         currentUser = AuthSystem.login('chi', 'chi', true);
       }
 
@@ -310,8 +352,8 @@
       // 3. Tải trạng thái lưu trữ riêng của user hiện tại
       loadUserAcceptanceData();
 
-      // 4. Render danh sách cây 2 Level
-      renderTree();
+      // 4. Render chế độ xem mặc định
+      renderCurrentView();
     }
 
     // Cập nhật thông tin User trên Header
@@ -334,17 +376,15 @@
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          // Merge trạng thái đã lưu vào template gốc
           userItems = rawTaskData.items.map(orig => {
             const found = parsed.find(x => x.id === orig.id);
-            return found ? { ...orig, status: found.status, note: found.note || "" } : { ...orig };
+            return found ? { ...orig, status: found.status, note: found.note || "", image: orig.image || "" } : { ...orig };
           });
         } catch (e) {
           console.warn('Lỗi đọc cache user, khôi phục từ data.json:', e);
           userItems = JSON.parse(JSON.stringify(rawTaskData.items));
         }
       } else {
-        // Chưa có dữ liệu riêng: lấy template gốc (toàn bộ pending - 0/27)
         userItems = JSON.parse(JSON.stringify(rawTaskData.items));
         saveUserAcceptanceData();
       }
@@ -364,7 +404,7 @@
       const storageKey = getUserStorageKey();
       localStorage.removeItem(storageKey);
       loadUserAcceptanceData();
-      renderTree();
+      renderCurrentView();
     };
 
     // Đăng nhập nhanh bằng chip
@@ -375,7 +415,7 @@
         updateUserUI();
         document.getElementById('loginModal').classList.add('hidden');
         loadUserAcceptanceData();
-        renderTree();
+        renderCurrentView();
       }
     };
 
@@ -383,9 +423,51 @@
       document.getElementById('loginModal').classList.remove('hidden');
     };
 
-    // Render Tree View 2 Cấp
+    // Chuyển đổi chế độ xem: Tree vs Gallery
+    window.switchViewMode = (mode) => {
+      currentViewMode = mode;
+      const tabTree = document.getElementById('tabTreeMode');
+      const tabGallery = document.getElementById('tabGalleryMode');
+      const treeActionGroup = document.getElementById('treeActionGroup');
+
+      if (mode === 'tree') {
+        tabTree.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm";
+        tabGallery.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900";
+        treeActionGroup.classList.remove('hidden');
+      } else {
+        tabGallery.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm";
+        tabTree.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900";
+        treeActionGroup.classList.add('hidden');
+      }
+
+      renderCurrentView();
+    };
+
+    function renderCurrentView() {
+      if (currentViewMode === 'tree') {
+        renderTree();
+      } else {
+        renderGallery();
+      }
+    }
+
+    // Cập nhật thống kê KPI
+    function updateKpiStats() {
+      let totalPassed = 0;
+      userItems.forEach(it => {
+        if (it.status === 'passed') totalPassed++;
+      });
+
+      document.getElementById('statsPassedCount').textContent = `${totalPassed} / ${userItems.length}`;
+      const overallPct = Math.round((totalPassed / userItems.length) * 100);
+      document.getElementById('statsPercent').textContent = `${overallPct}%`;
+      document.getElementById('statsProgressBar').style.width = `${overallPct}%`;
+    }
+
+    // 1. RENDER TREE VIEW (DẠNG CÂY 2 CẤP)
     function renderTree() {
-      const container = document.getElementById('treeContainer');
+      updateKpiStats();
+      const container = document.getElementById('viewContainer');
       container.innerHTML = '';
 
       // Gom nhóm theo Phân hệ (Domain)
@@ -397,23 +479,11 @@
         domainGroups[item.domain].push(item);
       });
 
-      // Tính tổng số lượng
-      let totalPassed = 0;
-      userItems.forEach(it => {
-        if (it.status === 'passed') totalPassed++;
-      });
-
-      // Cập nhật KPI
-      document.getElementById('statsPassedCount').textContent = `${totalPassed} / ${userItems.length}`;
-      const overallPct = Math.round((totalPassed / userItems.length) * 100);
-      document.getElementById('statsPercent').textContent = `${overallPct}%`;
-      document.getElementById('statsProgressBar').style.width = `${overallPct}%`;
-
       // Duyệt qua từng Phân hệ (Level 1)
       Object.keys(domainGroups).forEach((domainName, domainIdx) => {
         const items = domainGroups[domainName];
         
-        // Lọc theo từ khóa tìm kiếm (nếu có)
+        // Lọc theo từ khóa tìm kiếm
         const q = searchQuery.trim().toLowerCase();
         const filteredItems = items.filter(it => {
           if (!q) return true;
@@ -423,12 +493,10 @@
                  it.lockedBehavior.toLowerCase().includes(q);
         });
 
-        // Nếu có tìm kiếm và không có kết quả trong phân hệ này thì ẩn
         if (q && filteredItems.length === 0) return;
 
         const domainPassedCount = items.filter(x => x.status === 'passed').length;
-        const isDomainAllPassed = domainPassedCount === items.length;
-        const domainPct = Math.round((domainPassedCount / items.length) * 100);
+        const isDomainAllPassed = domainPassedCount === items.length && items.length > 0;
         const meta = DOMAIN_METADATA[domainName] || { icon: "fa-folder", color: "indigo" };
         const isCollapsed = collapsedModules.has(domainName);
 
@@ -469,7 +537,6 @@
           </div>
         `;
 
-        // Sự kiện click gập/mở Level 1
         headerEl.addEventListener('click', () => {
           if (collapsedModules.has(domainName)) {
             collapsedModules.delete(domainName);
@@ -489,13 +556,13 @@
           filteredItems.forEach((item, itemIdx) => {
             const isPassed = item.status === 'passed';
             const row = document.createElement('div');
-            row.className = `p-4 sm:p-5 transition-colors ${isPassed ? 'hover:bg-slate-50/80' : 'bg-rose-50/30 hover:bg-rose-50/60'}`;
+            row.className = `p-4 sm:p-5 transition-colors ${isPassed ? 'hover:bg-slate-50/80' : 'bg-rose-50/20 hover:bg-rose-50/50'}`;
             row.innerHTML = `
               <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 
                 <!-- Left: Screen Details -->
                 <div class="space-y-2 flex-1">
-                  <!-- Title & Menu -->
+                  <!-- Title & Menu & Image Tag -->
                   <div class="flex flex-wrap items-center gap-2">
                     <span class="font-mono text-xs font-bold text-slate-400">#${String(itemIdx + 1).padStart(2, '0')}</span>
                     <h3 class="text-sm sm:text-base font-bold text-slate-900">${item.screenName}</h3>
@@ -504,6 +571,13 @@
                       <span class="font-semibold mr-1">Menu:</span>
                       <span>${item.menuPath}</span>
                     </div>
+
+                    ${item.image ? `
+                      <button type="button" onclick="openLightbox('${item.image}', '${item.screenName}')" class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold rounded-md border border-purple-200 transition" title="Bấm xem ảnh chụp thực tế">
+                        <i class="fa-solid fa-image text-purple-500"></i>
+                        <span>📷 Xem ảnh app</span>
+                      </button>
+                    ` : ''}
                   </div>
 
                   <!-- Details Grid -->
@@ -550,13 +624,111 @@
       });
     }
 
+    // 2. RENDER GALLERY VIEW (THƯ VIỆN ẢNH MINH CHỨNG)
+    function renderGallery() {
+      updateKpiStats();
+      const container = document.getElementById('viewContainer');
+      container.innerHTML = '';
+
+      // Lọc các item có ảnh minh chứng
+      const itemsWithImage = userItems.filter(it => it.image);
+
+      if (itemsWithImage.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-500">
+            <i class="fa-solid fa-images text-4xl text-slate-300 mb-3 block"></i>
+            <h3 class="text-base font-bold text-slate-700">Chưa có ảnh chụp minh chứng nào</h3>
+            <p class="text-xs text-slate-400 mt-1">Các ảnh chụp màn hình thực tế sẽ xuất hiện tại đây khi được đính kèm vào Task.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = "grid grid-cols-1 md:grid-cols-2 gap-5";
+
+      itemsWithImage.forEach((item, idx) => {
+        const isPassed = item.status === 'passed';
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between";
+
+        card.innerHTML = `
+          <div>
+            <!-- Card Header -->
+            <div class="p-4 border-b border-slate-100 flex items-start justify-between gap-3 bg-gradient-to-r from-slate-50 to-white">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 mb-1 inline-block">${item.domain}</span>
+                <h3 class="text-sm font-bold text-slate-900">${item.screenName}</h3>
+                <span class="text-xs text-indigo-700 mt-0.5 block"><i class="fa-solid fa-location-arrow text-[10px] mr-1"></i>${item.menuPath}</span>
+              </div>
+              <!-- Toggle switch inside gallery -->
+              <div class="flex items-center space-x-2 shrink-0">
+                <label class="toggle-switch">
+                  <input type="checkbox" ${isPassed ? 'checked' : ''} onchange="toggleItemStatus('${item.id}', this.checked)">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span class="text-xs font-bold ${isPassed ? 'text-emerald-600' : 'text-slate-400'}">${isPassed ? 'ĐẠT' : 'CHƯA'}</span>
+              </div>
+            </div>
+
+            <!-- Image Thumbnail -->
+            <div class="relative bg-slate-900/5 group cursor-pointer overflow-hidden border-b border-slate-100 flex items-center justify-center p-3" onclick="openLightbox('${item.image}', '${item.screenName}')">
+              <img src="${item.image}" alt="${item.screenName}" class="rounded-lg shadow-sm max-h-56 object-contain group-hover:scale-105 transition duration-300">
+              <div class="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                <span class="px-3 py-1.5 bg-white/90 backdrop-blur-sm text-slate-900 rounded-lg text-xs font-bold shadow-lg flex items-center space-x-1.5">
+                  <i class="fa-solid fa-magnifying-glass-plus"></i>
+                  <span>Xem ảnh phóng to</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="p-4 space-y-2 text-xs">
+              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200/80">
+                <span class="font-semibold text-slate-700 block mb-0.5">Biểu hiện thực tế khi khóa:</span>
+                <span class="text-slate-800">${item.lockedBehavior}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Note Input in Gallery -->
+          <div class="p-4 pt-0">
+            <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Nhập ghi chú phản hồi..." class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50/60 focus:bg-white transition">
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      container.appendChild(grid);
+    }
+
+    // LIGHTBOX POPUP CONTROLS
+    window.openLightbox = (imgSrc, screenName) => {
+      document.getElementById('lightboxImg').src = imgSrc;
+      document.getElementById('lightboxTitle').textContent = `Minh chứng: ${screenName}`;
+      document.getElementById('imageLightboxModal').classList.remove('hidden');
+    };
+
+    window.closeLightbox = () => {
+      document.getElementById('imageLightboxModal').classList.add('hidden');
+    };
+
+    // Phím ESC đóng Lightbox
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        document.getElementById('loginModal').classList.add('hidden');
+      }
+    });
+
     // Toggle trạng thái của 1 item (Level 2)
     window.toggleItemStatus = (id, isChecked) => {
       const item = userItems.find(x => x.id === id);
       if (item) {
         item.status = isChecked ? 'passed' : 'rejected';
         saveUserAcceptanceData();
-        renderTree();
+        renderCurrentView();
       }
     };
 
@@ -569,7 +741,7 @@
         }
       });
       saveUserAcceptanceData();
-      renderTree();
+      renderCurrentView();
     };
 
     // Cập nhật ghi chú của 1 item
@@ -584,19 +756,19 @@
     // Sự kiện Search Input
     document.getElementById('searchInput').addEventListener('input', (e) => {
       searchQuery = e.target.value;
-      renderTree();
+      renderCurrentView();
     });
 
     // Mở tất cả phân hệ
     document.getElementById('btnExpandAll').addEventListener('click', () => {
       collapsedModules.clear();
-      renderTree();
+      renderCurrentView();
     });
 
     // Thu gọn tất cả phân hệ
     document.getElementById('btnCollapseAll').addEventListener('click', () => {
       Object.keys(DOMAIN_METADATA).forEach(d => collapsedModules.add(d));
-      renderTree();
+      renderCurrentView();
     });
 
     // Duyệt đạt tất cả 27 màn hình
@@ -604,7 +776,7 @@
       if (!confirm(`Bạn có chắc muốn đánh dấu ĐẠT TOÀN BỘ 27 màn hình cho người duyệt [${currentUser.displayName}]?`)) return;
       userItems.forEach(it => it.status = 'passed');
       saveUserAcceptanceData();
-      renderTree();
+      renderCurrentView();
     });
 
     // XỬ LÝ LOGIN FORM
@@ -618,7 +790,7 @@
         updateUserUI();
         document.getElementById('loginModal').classList.add('hidden');
         loadUserAcceptanceData();
-        renderTree();
+        renderCurrentView();
       } else {
         document.getElementById('loginErrorMsg').classList.remove('hidden');
       }
@@ -668,6 +840,7 @@
           menuPath: item.menuPath,
           componentLocation: item.componentLocation,
           status: item.status,
+          image: item.image || "",
           note: item.note || ""
         });
       });

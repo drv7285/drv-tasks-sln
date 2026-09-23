@@ -16,7 +16,8 @@
       "lockedBehavior": "Thêm Checkbox 'Xem SĐT khách hàng', thêm cột 'Xem SĐT KH' trên bảng và nút shortcut '[🛡️ Phân quyền nhóm...]'",
       "testInstruction": "Vào menu Hệ thống > Nhóm người dùng: kiểm tra xem nhóm đã có cột Xem SĐT KH và checkbox tương ứng chưa",
       "status": "pending",
-      "note": ""
+      "note": "",
+      "image": "images/01-nhom-nguoi-dung.png"
     },
     {
       "id": "01a0cccd-5560-756c-af81-8f287d617825",
@@ -27,7 +28,8 @@
       "lockedBehavior": "Tự động chọn đúng nhóm người dùng khi mở từ nút tắt",
       "testInstruction": "Bấm nút [🛡️ Phân quyền nhóm...] tại màn hình nhóm: form tự nhảy sang đúng nhóm",
       "status": "pending",
-      "note": ""
+      "note": "",
+      "image": "images/02-phan-quyen-chi-tiet.png"
     },
     {
       "id": "01a0cccd-5560-7bde-943f-f467b86bfa15",
@@ -38,7 +40,8 @@
       "lockedBehavior": "Ô SĐT hiển thị '***', nền xám, ReadOnly, tooltip cảnh báo; giữ nguyên số gốc khi lưu thông tin khác",
       "testInstruction": "Đăng nhập bằng user không có quyền, vào Quản lý khách hàng: ô SĐT bị che *** nền xám không sửa được",
       "status": "pending",
-      "note": ""
+      "note": "",
+      "image": "images/04-ho-so-khach-hang.png"
     },
     {
       "id": "01a0cccd-5560-7ada-94ba-81790bdd3b9b",
@@ -104,7 +107,8 @@
       "lockedBehavior": "Ô SĐT hiển thị '***' và bị khóa; bảng tìm khách ẩn cột SĐT; không bị báo lỗi định dạng SĐT khi lưu",
       "testInstruction": "Mở thẻ hẹn: ô SĐT hiện ***, lưu phiếu không báo lỗi số điện thoại",
       "status": "pending",
-      "note": ""
+      "note": "",
+      "image": "images/03-the-lich-hen.png"
     },
     {
       "id": "01a0cccd-5560-7c2b-a6a9-22acc91e63cc",
