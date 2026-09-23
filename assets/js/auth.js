@@ -6,6 +6,7 @@
 const AuthSystem = {
   USERS: [
     { username: 'chi', password: 'chi', displayName: 'Chị Chi', role: 'approver', title: 'Quản lý nghiệm thu' },
+    { username: 'qtu', password: 'qtu', displayName: 'Qtu', role: 'approver', title: 'Người nghiệm thu' },
     { username: 'drv', password: 'drv', displayName: 'Kỹ thuật DRV', role: 'tester', title: 'Kỹ thuật viên / Kiểm thử' }
   ],
 

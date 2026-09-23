@@ -6,80 +6,190 @@
   <title>Nghiệm Thu: Phân Quyền & Khóa Ẩn SĐT Khách Hàng (Task PQ-SDT-KH)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="../../../assets/js/uuidv7.js"></script>
-  <script src="../../../assets/js/auth.js"></script>
+  <script src="/assets/js/uuidv7.js"></script>
+  <script src="/assets/js/auth.js"></script>
+  <script>
+    // Fallback nếu mở dạng file:/// hoặc thư mục con
+    if (typeof AuthSystem === 'undefined') {
+      document.write('<script src="../../../../assets/js/uuidv7.js"><\/script>');
+      document.write('<script src="../../../../assets/js/auth.js"><\/script>');
+    }
+  </script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    
+    /* Toggle switch iOS style cho từng màn hình */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1;
+      transition: .2s ease-in-out;
+      border-radius: 24px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s ease-in-out;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    input:checked + .toggle-slider {
+      background-color: #059669; /* emerald-600 */
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Master toggle cho cả Module Level 1 */
+    .master-toggle {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+    .master-toggle input { opacity: 0; width: 0; height: 0; }
+    .master-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #94a3b8;
+      transition: .2s ease-in-out;
+      border-radius: 26px;
+    }
+    .master-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s ease-in-out;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    }
+    input:checked + .master-slider {
+      background-color: #10b981;
+    }
+    input:checked + .master-slider:before {
+      transform: translateX(22px);
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen">
 
-  <!-- MODAL ĐĂNG NHẬP (NẾU CHƯA ĐĂNG NHẬP) -->
+  <!-- MODAL ĐĂNG NHẬP / CHỌN NGƯỜI DUYỆT -->
   <div id="loginModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
     <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-slate-100">
       <div class="text-center mb-6">
         <div class="inline-flex p-4 rounded-2xl bg-indigo-50 text-indigo-600 mb-3">
           <i class="fa-solid fa-user-shield text-3xl"></i>
         </div>
-        <h2 class="text-2xl font-bold text-slate-900">Đăng Nhập Nghiệm Thu</h2>
-        <p class="text-sm text-slate-500 mt-1">Vui lòng đăng nhập để thực hiện đánh giá nghiệm thu</p>
+        <h2 class="text-2xl font-bold text-slate-900">Xác Nhận Người Nghiệm Thu</h2>
+        <p class="text-sm text-slate-500 mt-1">Chọn tài khoản hoặc nhập tên để lưu kết quả nghiệm thu riêng</p>
       </div>
-      <form id="loginForm" class="space-y-4">
+
+      <!-- Quick Switch Chips -->
+      <div class="mb-5">
+        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 text-center">Chọn nhanh người duyệt</span>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" onclick="quickLogin('chi')" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100 text-indigo-800 text-xs font-bold text-center transition">
+            <i class="fa-solid fa-crown block mb-1 text-amber-500 text-sm"></i>
+            Chị Chi
+          </button>
+          <button type="button" onclick="quickLogin('qtu')" class="p-2.5 rounded-xl border border-purple-200 bg-purple-50/50 hover:bg-purple-100 text-purple-800 text-xs font-bold text-center transition">
+            <i class="fa-solid fa-user-tie block mb-1 text-purple-600 text-sm"></i>
+            Qtu
+          </button>
+          <button type="button" onclick="quickLogin('drv')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold text-center transition">
+            <i class="fa-solid fa-laptop-code block mb-1 text-slate-500 text-sm"></i>
+            Kỹ thuật
+          </button>
+        </div>
+      </div>
+
+      <div class="relative flex py-2 items-center">
+        <div class="flex-grow border-t border-slate-200"></div>
+        <span class="flex-shrink mx-3 text-slate-400 text-xs uppercase">hoặc đăng nhập thủ công</span>
+        <div class="flex-grow border-t border-slate-200"></div>
+      </div>
+
+      <form id="loginForm" class="space-y-4 mt-2">
         <div>
           <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tài khoản</label>
-          <input type="text" id="loginUsername" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Nhập tài khoản (vd: chi hoặc drv)" required autofocus>
+          <input type="text" id="loginUsername" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Nhập tài khoản (vd: chi, qtu hoặc drv)" required>
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Mật khẩu</label>
-          <input type="password" id="loginPassword" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Nhập mật khẩu" required>
+          <input type="password" id="loginPassword" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Nhập mật khẩu (mặc định giống tài khoản)" required>
         </div>
         <p id="loginErrorMsg" class="text-rose-600 text-xs hidden text-center font-medium">Tài khoản hoặc mật khẩu không chính xác!</p>
         <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg shadow-indigo-200 transition">Đăng nhập</button>
-        <div class="pt-2 text-center text-xs text-slate-400">
-          Gợi ý: Boss đăng nhập <b>chi / chi</b> | Kỹ thuật <b>drv / drv</b>
-        </div>
       </form>
     </div>
   </div>
 
   <!-- HEADER TRANG NGHIỆM THU -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center space-x-3">
-        <a href="../../../index.html" class="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition" title="Về trang chủ danh sách Tasks">
+        <a href="/index.html" class="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition" title="Về trang chủ danh sách Tasks">
           <i class="fa-solid fa-arrow-left"></i>
         </a>
         <span class="p-2.5 bg-indigo-600 text-white rounded-xl shadow-md shadow-indigo-200">
-          <i class="fa-solid fa-phone-slash text-xl"></i>
+          <i class="fa-solid fa-phone-slash text-lg"></i>
         </span>
         <div>
           <div class="flex items-center space-x-2">
             <span class="px-2 py-0.5 text-xs font-mono font-bold bg-indigo-50 text-indigo-700 rounded border border-indigo-200">PQ-SDT-KH</span>
-            <h1 class="text-lg font-bold text-slate-900 leading-tight">Phân quyền & Khóa ẩn SĐT Khách hàng</h1>
+            <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Phân quyền & Khóa ẩn SĐT Khách hàng</h1>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Bảng kiểm tra & nghiệm thu 27 giao diện người dùng trên phần mềm</p>
+          <p class="text-xs text-slate-500 mt-0.5">Danh sách cây 2 cấp: 7 Phân hệ • 27 Vị trí giao diện người dùng</p>
         </div>
       </div>
 
-      <!-- User Info & Actions -->
-      <div class="flex items-center space-x-3">
-        <div id="userInfoBar" class="hidden sm:flex items-center space-x-2 px-3 py-1.5 bg-slate-100 rounded-lg text-xs">
+      <!-- User Info & Action Toolbar -->
+      <div class="flex items-center flex-wrap gap-2">
+        <!-- User Badge -->
+        <div id="userInfoBar" class="flex items-center space-x-2 px-3 py-1.5 bg-slate-100 rounded-lg text-xs cursor-pointer hover:bg-slate-200 transition" onclick="openLoginModal()" title="Bấm để đổi người duyệt">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-slate-500">Người duyệt:</span>
-          <span id="userNameLabel" class="font-bold text-slate-800">Chị Chi</span>
-          <span id="userRoleBadge" class="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded text-[10px] font-semibold uppercase">Quản lý</span>
+          <span class="text-slate-500 hidden sm:inline">Duyệt:</span>
+          <span id="userNameLabel" class="font-bold text-slate-800">Đang nạp...</span>
+          <span id="userRoleBadge" class="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded text-[10px] font-semibold uppercase">...</span>
+          <i class="fa-solid fa-angle-down text-slate-400 text-[10px]"></i>
         </div>
 
-        <button id="btnCopyBossLink" class="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg border border-indigo-200 transition flex items-center space-x-1.5" title="Sao chép link đăng nhập thẳng cho Boss (?u=chi)">
-          <i class="fa-solid fa-link"></i>
-          <span>Copy link gửi Boss</span>
+        <!-- Copy Link Buttons -->
+        <button id="btnCopyBossLink" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg border border-indigo-200 transition flex items-center space-x-1.5" title="Sao chép link đăng nhập thẳng cho Boss (?u=chi)">
+          <i class="fa-solid fa-crown text-amber-500"></i>
+          <span>Link Boss</span>
         </button>
 
-        <button id="btnExportJson" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-md shadow-emerald-200 transition flex items-center space-x-2">
+        <button id="btnCopyMyLink" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg border border-slate-200 transition flex items-center space-x-1.5" title="Sao chép link trực tiếp của tài khoản này">
+          <i class="fa-solid fa-link text-slate-500"></i>
+          <span>Copy link</span>
+        </button>
+
+        <!-- Export JSON -->
+        <button id="btnExportJson" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center space-x-1.5">
           <i class="fa-solid fa-file-arrow-down"></i>
-          <span>Xuất JSON Nghiệm thu</span>
+          <span>Xuất JSON</span>
         </button>
 
+        <!-- Logout / Switch -->
         <button id="btnLogout" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg transition" title="Đổi tài khoản">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
@@ -90,288 +200,521 @@
   <!-- MAIN CONTENT -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-    <!-- KPI STATS -->
+    <!-- KPI STATS CARDS -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Tổng số giao diện kiểm tra</span>
-        <p class="text-2xl font-bold text-slate-900 mt-1">27 <span class="text-xs text-slate-400 font-normal">màn hình</span></p>
+        <span class="text-xs text-slate-500 font-medium">Quy mô kiểm thử</span>
+        <p class="text-2xl font-bold text-slate-900 mt-1">7 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 27 <span class="text-xs text-slate-400 font-normal">màn hình</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Chuẩn khóa an toàn</span>
-        <p class="text-2xl font-bold text-indigo-600 mt-1">3 Lớp + Mask</p>
+        <span class="text-xs text-slate-500 font-medium">Chuẩn bảo mật</span>
+        <p class="text-2xl font-bold text-indigo-600 mt-1">3 Lớp <span class="text-xs text-slate-400 font-normal">+ Mask ***</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu</span>
+        <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu của bạn</span>
         <p id="statsPassedCount" class="text-2xl font-bold text-emerald-600 mt-1">0 / 27</p>
       </div>
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center">
-        <div class="flex justify-between items-center text-xs text-slate-500 mb-1">
-          <span>Tỷ lệ hoàn thành</span>
-          <span id="statsPercent" class="font-bold text-slate-800">0%</span>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-500 font-medium">Tỷ lệ hoàn thành</span>
+          <span id="statsPercent" class="text-xs font-bold text-emerald-700 font-mono">0%</span>
         </div>
-        <div class="w-full bg-slate-100 rounded-full h-2.5">
+        <div class="w-full bg-slate-100 rounded-full h-2.5 mt-3 overflow-hidden border border-slate-100">
           <div id="statsProgressBar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
       </div>
     </div>
 
-    <!-- FILTER TABS & BULK ACTIONS -->
-    <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-      <div class="flex flex-wrap items-center gap-1.5" id="domainFilterContainer">
-        <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white" data-domain="ALL">Tất cả (27)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Quản trị & Phân quyền">Quản trị (2)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Hồ sơ Khách hàng & Lễ tân">Hồ sơ & Lễ tân (6)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Quản lý Lịch hẹn">Lịch hẹn (3)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Chăm sóc Khách hàng (CSKH)">CSKH (4)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Tin nhắn SMS & Zalo">SMS & Zalo (4)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Khám chữa trị & Labo">Điều trị & Labo (5)</button>
-        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Thu ngân & Kế toán">Thu ngân (3)</button>
+    <!-- TOOLBAR: SEARCH & TREE ACTIONS -->
+    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+      <!-- Search input -->
+      <div class="relative w-full sm:w-80">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm màn hình, menu hoặc vị trí..." class="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-slate-200 focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
       </div>
 
-      <div class="flex items-center space-x-2">
-        <button id="btnCheckAll" class="px-3 py-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg transition flex items-center space-x-1">
-          <i class="fa-solid fa-check-double"></i>
-          <span>Duyệt đạt tất cả</span>
+      <!-- Quick action buttons -->
+      <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+        <button id="btnExpandAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
+          <i class="fa-solid fa-folder-open text-slate-500"></i>
+          <span>Mở tất cả</span>
+        </button>
+        <button id="btnCollapseAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
+          <i class="fa-solid fa-folder-closed text-slate-500"></i>
+          <span>Thu gọn</span>
+        </button>
+        <button id="btnCheckAll" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg border border-emerald-200 transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-circle-check text-emerald-600"></i>
+          <span>Duyệt ĐẠT tất cả (27)</span>
         </button>
       </div>
     </div>
 
-    <!-- DANH SÁCH MÀN HÌNH KIỂM TRA -->
-    <div id="screenItemsList" class="space-y-3">
-      <!-- Render dynamic items by JS -->
+    <!-- TREE VIEW: LEVEL 1 (MODULES) & LEVEL 2 (SCREENS) -->
+    <div id="treeContainer" class="space-y-4">
+      <!-- Dynamic render by JavaScript -->
+    </div>
+
+    <!-- USER LOCAL STORAGE STATUS BANNER -->
+    <div class="p-3.5 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-indigo-800 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-cloud-arrow-up text-indigo-600 text-sm"></i>
+        <span>Kết quả đánh giá được <b>tự động lưu riêng cho tài khoản <code id="lblStorageUser" class="bg-white px-1.5 py-0.5 rounded font-bold border border-indigo-200 text-indigo-900">...</code></b> trên trình duyệt này.</span>
+      </div>
+      <button onclick="resetUserData()" class="text-slate-500 hover:text-rose-600 text-xs font-medium underline ml-2 shrink-0">
+        Khôi phục mặc định
+      </button>
     </div>
 
   </main>
 
   <script>
-    // LOAD DỮ LIỆU & QUẢN LÝ TRẠNG THÁI
-    let taskData = null;
-    let currentFilter = 'ALL';
+    // CẤU HÌNH & KHỞI TẠO BIẾN TOÀN CỤC
+    let rawTaskData = null;
+    let currentUser = null;
+    let userItems = []; // Danh sách items gắn liền với user hiện tại
+    let collapsedModules = new Set(); // Theo dõi trạng thái đóng/mở của các phân hệ Level 1
+    let searchQuery = '';
 
+    // Metadata icon & màu sắc cho 7 Phân hệ Level 1
+    const DOMAIN_METADATA = {
+      "Quản trị & Phân quyền": { icon: "fa-shield-halved", color: "indigo", badgeClass: "bg-indigo-50 text-indigo-700 border-indigo-200" },
+      "Hồ sơ Khách hàng & Lễ tân": { icon: "fa-user-check", color: "blue", badgeClass: "bg-blue-50 text-blue-700 border-blue-200" },
+      "Lịch hẹn & Đặt lịch": { icon: "fa-calendar-days", color: "emerald", badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+      "Điều trị & Bệnh án": { icon: "fa-tooth", color: "teal", badgeClass: "bg-teal-50 text-teal-700 border-teal-200" },
+      "Tin nhắn SMS & Chăm sóc KH": { icon: "fa-comment-sms", color: "sky", badgeClass: "bg-sky-50 text-sky-700 border-sky-200" },
+      "Thu ngân & Labo Phục hình": { icon: "fa-cash-register", color: "amber", badgeClass: "bg-amber-50 text-amber-700 border-amber-200" },
+      "Báo cáo & Thống kê": { icon: "fa-chart-pie", color: "purple", badgeClass: "bg-purple-50 text-purple-700 border-purple-200" }
+    };
+
+    // Khởi chạy khi tải trang
     async function initPage() {
-      // 1. Kiểm tra xác thực
-      const user = AuthSystem.getCurrentUser();
-      if (!user) {
-        document.getElementById('loginModal').classList.remove('hidden');
-      } else {
-        document.getElementById('loginModal').classList.add('hidden');
-        document.getElementById('userNameLabel').textContent = user.displayName;
-        document.getElementById('userRoleBadge').textContent = user.title;
+      // 1. Xác định Người duyệt (Ưu tiên URL ?u=... rồi đến session/local storage)
+      currentUser = AuthSystem.getCurrentUser();
+      if (!currentUser) {
+        // Mặc định tự động đăng nhập là 'chi' nếu không có tham số
+        currentUser = AuthSystem.login('chi', 'chi', true);
       }
 
-      // 2. Tải data.json
+      updateUserUI();
+
+      // 2. Tải data.json gốc
       try {
         const res = await fetch('data.json');
-        taskData = await res.json();
+        rawTaskData = await res.json();
       } catch (err) {
-        console.error('Không thể tải data.json, sử dụng bộ nhớ cache:', err);
+        console.error('Không thể tải data.json:', err);
+        return;
       }
 
-      renderList();
+      // 3. Tải trạng thái lưu trữ riêng của user hiện tại
+      loadUserAcceptanceData();
+
+      // 4. Render danh sách cây 2 Level
+      renderTree();
     }
 
-    // Xử lý Login Form
+    // Cập nhật thông tin User trên Header
+    function updateUserUI() {
+      if (!currentUser) return;
+      document.getElementById('userNameLabel').textContent = currentUser.displayName;
+      document.getElementById('userRoleBadge').textContent = currentUser.title || currentUser.role;
+      document.getElementById('lblStorageUser').textContent = `${currentUser.username} (${currentUser.displayName})`;
+    }
+
+    // Tải dữ liệu nghiệm thu riêng của User từ localStorage
+    function loadUserAcceptanceData() {
+      const storageKey = `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}`;
+      const saved = localStorage.getItem(storageKey);
+
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          // Merge trạng thái đã lưu vào template gốc
+          userItems = rawTaskData.items.map(orig => {
+            const found = parsed.find(x => x.id === orig.id);
+            return found ? { ...orig, status: found.status, note: found.note || "" } : { ...orig };
+          });
+        } catch (e) {
+          console.warn('Lỗi đọc cache user, khôi phục từ data.json:', e);
+          userItems = JSON.parse(JSON.stringify(rawTaskData.items));
+        }
+      } else {
+        // Chưa có dữ liệu riêng: lấy template gốc
+        userItems = JSON.parse(JSON.stringify(rawTaskData.items));
+        saveUserAcceptanceData();
+      }
+    }
+
+    // Tự động lưu dữ liệu của user vào localStorage
+    function saveUserAcceptanceData() {
+      if (!currentUser || !userItems.length) return;
+      const storageKey = `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}`;
+      const payload = userItems.map(x => ({ id: x.id, status: x.status, note: x.note || "" }));
+      localStorage.setItem(storageKey, JSON.stringify(payload));
+    }
+
+    // Khôi phục dữ liệu mặc định của user
+    window.resetUserData = () => {
+      if (!confirm(`Bạn có chắc chắn muốn khôi phục lại trạng thái mặc định của người duyệt [${currentUser.displayName}] không?`)) return;
+      const storageKey = `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}`;
+      localStorage.removeItem(storageKey);
+      loadUserAcceptanceData();
+      renderTree();
+    };
+
+    // Đăng nhập nhanh bằng chip
+    window.quickLogin = (username) => {
+      const user = AuthSystem.login(username, username, true);
+      if (user) {
+        currentUser = user;
+        updateUserUI();
+        document.getElementById('loginModal').classList.add('hidden');
+        loadUserAcceptanceData();
+        renderTree();
+      }
+    };
+
+    window.openLoginModal = () => {
+      document.getElementById('loginModal').classList.remove('hidden');
+    };
+
+    // Render Tree View 2 Cấp
+    function renderTree() {
+      const container = document.getElementById('treeContainer');
+      container.innerHTML = '';
+
+      // Gom nhóm theo Phân hệ (Domain)
+      const domainGroups = {};
+      userItems.forEach(item => {
+        if (!domainGroups[item.domain]) {
+          domainGroups[item.domain] = [];
+        }
+        domainGroups[item.domain].push(item);
+      });
+
+      // Tính tổng số lượng
+      let totalPassed = 0;
+      userItems.forEach(it => {
+        if (it.status === 'passed') totalPassed++;
+      });
+
+      // Cập nhật KPI
+      document.getElementById('statsPassedCount').textContent = `${totalPassed} / ${userItems.length}`;
+      const overallPct = Math.round((totalPassed / userItems.length) * 100);
+      document.getElementById('statsPercent').textContent = `${overallPct}%`;
+      document.getElementById('statsProgressBar').style.width = `${overallPct}%`;
+
+      // Duyệt qua từng Phân hệ (Level 1)
+      Object.keys(domainGroups).forEach((domainName, domainIdx) => {
+        const items = domainGroups[domainName];
+        
+        // Lọc theo từ khóa tìm kiếm (nếu có)
+        const q = searchQuery.trim().toLowerCase();
+        const filteredItems = items.filter(it => {
+          if (!q) return true;
+          return it.screenName.toLowerCase().includes(q) ||
+                 it.menuPath.toLowerCase().includes(q) ||
+                 it.componentLocation.toLowerCase().includes(q) ||
+                 it.lockedBehavior.toLowerCase().includes(q);
+        });
+
+        // Nếu có tìm kiếm và không có kết quả trong phân hệ này thì ẩn
+        if (q && filteredItems.length === 0) return;
+
+        const domainPassedCount = items.filter(x => x.status === 'passed').length;
+        const isDomainAllPassed = domainPassedCount === items.length;
+        const domainPct = Math.round((domainPassedCount / items.length) * 100);
+        const meta = DOMAIN_METADATA[domainName] || { icon: "fa-folder", color: "indigo" };
+        const isCollapsed = collapsedModules.has(domainName);
+
+        // Khối Card Level 1
+        const moduleCard = document.createElement('div');
+        moduleCard.className = "bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition";
+
+        // Level 1 Header (Accordion Bar)
+        const headerEl = document.createElement('div');
+        headerEl.className = "p-4 sm:p-5 bg-gradient-to-r from-slate-50 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 select-none cursor-pointer";
+        headerEl.innerHTML = `
+          <!-- Left: Chevron + Icon + Module Name -->
+          <div class="flex items-center space-x-3 flex-1">
+            <button type="button" class="p-1 text-slate-400 hover:text-slate-700 transition">
+              <i class="fa-solid fa-chevron-${isCollapsed ? 'right' : 'down'} text-sm transition-transform duration-200"></i>
+            </button>
+            <span class="p-2.5 rounded-xl bg-indigo-50 text-indigo-600">
+              <i class="fa-solid ${meta.icon} text-base"></i>
+            </span>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h2 class="text-base font-bold text-slate-900 leading-snug">${domainName}</h2>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${isDomainAllPassed ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-600'}">
+                  ${domainPassedCount}/${items.length} Đạt
+                </span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">Phân hệ #${domainIdx + 1} • Nhấp để ${isCollapsed ? 'mở chi tiết' : 'thu gọn'}</p>
+            </div>
+          </div>
+
+          <!-- Right: Master Toggle for Module -->
+          <div class="flex items-center space-x-3 self-end sm:self-center" onclick="event.stopPropagation()">
+            <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Duyệt cả phân hệ:</span>
+            <label class="master-toggle" title="Gạt để Đạt/Chưa đạt tất cả màn hình trong phân hệ ${domainName}">
+              <input type="checkbox" ${isDomainAllPassed ? 'checked' : ''} onchange="toggleDomainAll('${domainName}', this.checked)">
+              <span class="master-slider"></span>
+            </label>
+          </div>
+        `;
+
+        // Sự kiện click gập/mở Level 1
+        headerEl.addEventListener('click', () => {
+          if (collapsedModules.has(domainName)) {
+            collapsedModules.delete(domainName);
+          } else {
+            collapsedModules.add(domainName);
+          }
+          renderTree();
+        });
+
+        moduleCard.appendChild(headerEl);
+
+        // Level 2 Container (Children items)
+        if (!isCollapsed) {
+          const childrenContainer = document.createElement('div');
+          childrenContainer.className = "divide-y divide-slate-100";
+
+          filteredItems.forEach((item, itemIdx) => {
+            const isPassed = item.status === 'passed';
+            const row = document.createElement('div');
+            row.className = `p-4 sm:p-5 transition-colors ${isPassed ? 'hover:bg-slate-50/80' : 'bg-rose-50/30 hover:bg-rose-50/60'}`;
+            row.innerHTML = `
+              <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                
+                <!-- Left: Screen Details -->
+                <div class="space-y-2 flex-1">
+                  <!-- Title & Menu -->
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-mono text-xs font-bold text-slate-400">#${String(itemIdx + 1).padStart(2, '0')}</span>
+                    <h3 class="text-sm sm:text-base font-bold text-slate-900">${item.screenName}</h3>
+                    <div class="flex items-center text-xs text-indigo-700 bg-indigo-50/80 px-2.5 py-1 rounded-md border border-indigo-100">
+                      <i class="fa-solid fa-location-arrow mr-1.5 text-[10px]"></i>
+                      <span class="font-semibold mr-1">Menu:</span>
+                      <span>${item.menuPath}</span>
+                    </div>
+                  </div>
+
+                  <!-- Details Grid -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
+                    <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200/80">
+                      <span class="font-semibold text-slate-700 block mb-0.5"><i class="fa-solid fa-lock text-slate-400 mr-1"></i>Vị trí & Biểu hiện khi khóa:</span>
+                      <span class="text-slate-800">${item.lockedBehavior}</span>
+                    </div>
+                    <div class="bg-emerald-50/60 p-2.5 rounded-lg border border-emerald-200/80">
+                      <span class="font-semibold text-emerald-800 block mb-0.5"><i class="fa-solid fa-bolt text-emerald-600 mr-1"></i>Thao tác Boss test nhanh 1 giây:</span>
+                      <span class="text-emerald-950">${item.testInstruction}</span>
+                    </div>
+                  </div>
+
+                  <!-- Note input -->
+                  <div class="pt-1">
+                    <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Nhập phản hồi/ghi chú của bạn về màn hình này (nếu có)..." class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50/60 focus:bg-white transition">
+                  </div>
+                </div>
+
+                <!-- Right: Level 2 Toggle Switch -->
+                <div class="flex items-center lg:flex-col lg:items-end justify-between lg:justify-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+                  <div class="flex items-center space-x-2.5">
+                    <label class="toggle-switch">
+                      <input type="checkbox" ${isPassed ? 'checked' : ''} onchange="toggleItemStatus('${item.id}', this.checked)">
+                      <span class="toggle-slider"></span>
+                    </label>
+                    <span class="text-xs font-bold w-16 ${isPassed ? 'text-emerald-600' : 'text-slate-400'}">
+                      ${isPassed ? 'ĐẠT' : 'CHƯA ĐẠT'}
+                    </span>
+                  </div>
+                  <span class="font-mono text-[10px] text-slate-400" title="Mã bất biến UUID v7: ${item.id}">${item.id.substring(0, 16)}...</span>
+                </div>
+
+              </div>
+            `;
+            childrenContainer.appendChild(row);
+          });
+
+          moduleCard.appendChild(childrenContainer);
+        }
+
+        container.appendChild(moduleCard);
+      });
+    }
+
+    // Toggle trạng thái của 1 item (Level 2)
+    window.toggleItemStatus = (id, isChecked) => {
+      const item = userItems.find(x => x.id === id);
+      if (item) {
+        item.status = isChecked ? 'passed' : 'rejected';
+        saveUserAcceptanceData();
+        renderTree();
+      }
+    };
+
+    // Toggle toàn bộ items trong 1 Phân hệ (Level 1)
+    window.toggleDomainAll = (domainName, isChecked) => {
+      const newStatus = isChecked ? 'passed' : 'rejected';
+      userItems.forEach(item => {
+        if (item.domain === domainName) {
+          item.status = newStatus;
+        }
+      });
+      saveUserAcceptanceData();
+      renderTree();
+    };
+
+    // Cập nhật ghi chú của 1 item
+    window.updateItemNote = (id, noteVal) => {
+      const item = userItems.find(x => x.id === id);
+      if (item) {
+        item.note = noteVal;
+        saveUserAcceptanceData();
+      }
+    };
+
+    // Sự kiện Search Input
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderTree();
+    });
+
+    // Mở tất cả phân hệ
+    document.getElementById('btnExpandAll').addEventListener('click', () => {
+      collapsedModules.clear();
+      renderTree();
+    });
+
+    // Thu gọn tất cả phân hệ
+    document.getElementById('btnCollapseAll').addEventListener('click', () => {
+      Object.keys(DOMAIN_METADATA).forEach(d => collapsedModules.add(d));
+      renderTree();
+    });
+
+    // Duyệt đạt tất cả 27 màn hình
+    document.getElementById('btnCheckAll').addEventListener('click', () => {
+      if (!confirm(`Bạn có chắc muốn đánh dấu ĐẠT TOÀN BỘ 27 màn hình cho người duyệt [${currentUser.displayName}]?`)) return;
+      userItems.forEach(it => it.status = 'passed');
+      saveUserAcceptanceData();
+      renderTree();
+    });
+
+    // XỬ LÝ LOGIN FORM
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const u = document.getElementById('loginUsername').value;
       const p = document.getElementById('loginPassword').value;
-      const loggedIn = AuthSystem.login(u, p);
+      const loggedIn = AuthSystem.login(u, p, true);
       if (loggedIn) {
+        currentUser = loggedIn;
+        updateUserUI();
         document.getElementById('loginModal').classList.add('hidden');
-        document.getElementById('userNameLabel').textContent = loggedIn.displayName;
-        document.getElementById('userRoleBadge').textContent = loggedIn.title;
-        renderList();
+        loadUserAcceptanceData();
+        renderTree();
       } else {
         document.getElementById('loginErrorMsg').classList.remove('hidden');
       }
     });
 
     document.getElementById('btnLogout').addEventListener('click', () => {
-      AuthSystem.logout();
-      document.getElementById('loginModal').classList.remove('hidden');
+      openLoginModal();
     });
 
-    // Xử lý Filter Tabs
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => {
-          b.classList.remove('active', 'bg-indigo-600', 'text-white');
-          b.classList.add('bg-slate-100', 'text-slate-600');
-        });
-        btn.classList.add('active', 'bg-indigo-600', 'text-white');
-        btn.classList.remove('bg-slate-100', 'text-slate-600');
-        currentFilter = btn.getAttribute('data-domain');
-        renderList();
-      });
+    // NÚT COPY LINK GỬI BOSS (?u=chi)
+    document.getElementById('btnCopyBossLink').addEventListener('click', () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('u', 'chi');
+      copyToClipboard(url.toString(), 'Đã sao chép link nghiệm thu trực tiếp cho BOSS (Chị Chi):\n' + url.toString() + '\n\n👉 Boss bấm vào link là tự động đăng nhập duyệt ngay!');
     });
 
-    // Cập nhật trạng thái từng item
-    window.toggleItemStatus = (id, newStatus) => {
-      const item = taskData.items.find(x => x.id === id);
-      if (item) {
-        item.status = newStatus;
-        renderList();
+    // NÚT COPY LINK NGƯỜI DUYỆT HIỆN TẠI (?u=<user>)
+    document.getElementById('btnCopyMyLink').addEventListener('click', () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('u', currentUser ? currentUser.username : 'chi');
+      copyToClipboard(url.toString(), `Đã sao chép link nghiệm thu trực tiếp cho [${currentUser ? currentUser.displayName : 'Chị Chi'}]:\n` + url.toString());
+    });
+
+    function copyToClipboard(text, successMsg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => alert('📋 ' + successMsg)).catch(() => prompt('Sao chép đường dẫn:', text));
+      } else {
+        prompt('Sao chép đường dẫn:', text);
       }
-    };
-
-    window.updateItemNote = (id, noteVal) => {
-      const item = taskData.items.find(x => x.id === id);
-      if (item) {
-        item.note = noteVal;
-      }
-    };
-
-    // Duyệt đạt tất cả
-    document.getElementById('btnCheckAll').addEventListener('click', () => {
-      taskData.items.forEach(item => item.status = 'passed');
-      renderList();
-    });
-
-    // Render danh sách giao diện
-    function renderList() {
-      if (!taskData || !taskData.items) return;
-
-      const container = document.getElementById('screenItemsList');
-      container.innerHTML = '';
-
-      let passedCount = 0;
-      const filtered = taskData.items.filter(item => {
-        if (item.status === 'passed') passedCount++;
-        return currentFilter === 'ALL' || item.domain === currentFilter;
-      });
-
-      // Cập nhật thống kê
-      document.getElementById('statsPassedCount').textContent = `${passedCount} / ${taskData.items.length}`;
-      const pct = Math.round((passedCount / taskData.items.length) * 100);
-      document.getElementById('statsPercent').textContent = `${pct}%`;
-      document.getElementById('statsProgressBar').style.width = `${pct}%`;
-
-      filtered.forEach((item, index) => {
-        const isPassed = item.status === 'passed';
-        const card = document.createElement('div');
-        card.className = `p-4 sm:p-5 rounded-xl border transition-all ${isPassed ? 'bg-white border-slate-200' : 'bg-rose-50/50 border-rose-200'}`;
-        card.innerHTML = `
-          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-            <!-- Left Info -->
-            <div class="space-y-2 flex-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="font-mono text-xs font-bold text-slate-400">#${String(index + 1).padStart(2, '0')}</span>
-                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">${item.domain}</span>
-                <h3 class="text-base font-bold text-slate-900">${item.screenName}</h3>
-              </div>
-
-              <!-- Menu Path -->
-              <div class="flex items-center text-xs text-indigo-700 bg-indigo-50/70 px-3 py-1.5 rounded-lg w-fit border border-indigo-100">
-                <i class="fa-solid fa-location-arrow mr-1.5"></i>
-                <span class="font-semibold mr-1">Menu App:</span>
-                <span>${item.menuPath}</span>
-              </div>
-
-              <!-- Behavior Details -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
-                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-semibold text-slate-600 block mb-0.5">Vị trí & Biểu hiện khi khóa:</span>
-                  <span class="text-slate-800">${item.lockedBehavior}</span>
-                </div>
-                <div class="bg-emerald-50/60 p-2.5 rounded-lg border border-emerald-100">
-                  <span class="font-semibold text-emerald-800 block mb-0.5">Thao tác Boss test nhanh:</span>
-                  <span class="text-emerald-900">${item.testInstruction}</span>
-                </div>
-              </div>
-
-              <!-- Note input -->
-              <div class="pt-1">
-                <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Nhập ghi chú hoặc phản hồi của Boss về màn hình này (nếu có)..." class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
-              </div>
-            </div>
-
-            <!-- Right Actions -->
-            <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
-              <div class="flex items-center space-x-1.5 p-1 bg-slate-100 rounded-xl">
-                <button onclick="toggleItemStatus('${item.id}', 'passed')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1 ${isPassed ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}">
-                  <i class="fa-solid fa-check"></i>
-                  <span>Đạt</span>
-                </button>
-                <button onclick="toggleItemStatus('${item.id}', 'rejected')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1 ${!isPassed ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}">
-                  <i class="fa-solid fa-xmark"></i>
-                  <span>Chưa đạt</span>
-                </button>
-              </div>
-              <span class="font-mono text-[10px] text-slate-400" title="ID bất biến UUID v7">${item.id.substring(0, 18)}...</span>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
     }
 
     // XUẤT FILE JSON NGHIỆM THU
     document.getElementById('btnExportJson').addEventListener('click', () => {
-      const user = AuthSystem.getCurrentUser() || { username: 'chi', displayName: 'Chị Chi', role: 'approver' };
       const acceptanceId = generateUuidV7();
       const nowIso = new Date().toISOString();
 
-      const passedCount = taskData.items.filter(x => x.status === 'passed').length;
-      const isFullApproved = passedCount === taskData.items.length;
+      const passedCount = userItems.filter(x => x.status === 'passed').length;
+      const isFullApproved = passedCount === userItems.length;
+
+      // Nhóm theo phân hệ để xuất báo cáo phân cấp
+      const domainGroups = {};
+      userItems.forEach(item => {
+        if (!domainGroups[item.domain]) domainGroups[item.domain] = [];
+        domainGroups[item.domain].push({
+          id: item.id,
+          screenName: item.screenName,
+          menuPath: item.menuPath,
+          componentLocation: item.componentLocation,
+          status: item.status,
+          note: item.note || ""
+        });
+      });
+
+      const modulesReport = Object.keys(domainGroups).map(domainName => {
+        const groupItems = domainGroups[domainName];
+        const pCount = groupItems.filter(x => x.status === 'passed').length;
+        return {
+          moduleName: domainName,
+          totalScreens: groupItems.length,
+          passedScreens: pCount,
+          isPassed: pCount === groupItems.length,
+          screens: groupItems
+        };
+      });
 
       const reportJson = {
         acceptanceId: acceptanceId,
-        taskId: taskData.taskId,
-        taskCode: taskData.taskCode,
-        taskTitle: taskData.taskTitle,
+        taskId: rawTaskData.taskId,
+        taskCode: rawTaskData.taskCode,
+        taskTitle: rawTaskData.taskTitle,
         reviewedAt: nowIso,
         reviewer: {
-          username: user.username,
-          displayName: user.displayName,
-          role: user.role,
-          title: user.title
+          username: currentUser.username,
+          displayName: currentUser.displayName,
+          role: currentUser.role,
+          title: currentUser.title
         },
         summary: {
-          totalScreens: taskData.items.length,
+          totalScreens: userItems.length,
           passedScreens: passedCount,
-          failedScreens: taskData.items.length - passedCount,
-          completionRate: `${Math.round((passedCount / taskData.items.length) * 100)}%`,
+          failedScreens: userItems.length - passedCount,
+          completionRate: `${Math.round((passedCount / userItems.length) * 100)}%`,
           overallStatus: isFullApproved ? "PASSED_APPROVED" : "PENDING_REVISION"
         },
-        items: taskData.items.map(it => ({
-          id: it.id,
-          domain: it.domain,
-          screenName: it.screenName,
-          menuPath: it.menuPath,
-          status: it.status,
-          note: it.note || ""
-        }))
+        modules: modulesReport
       };
 
       // Tải file JSON về máy
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reportJson, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `acceptance-${taskData.taskCode}-${acceptanceId.substring(0, 8)}.json`);
+      downloadAnchor.setAttribute("download", `acceptance-${rawTaskData.taskCode}-${currentUser.username}-${acceptanceId.substring(0, 8)}.json`);
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
 
-      alert(`✅ Đã xuất file JSON nghiệm thu thành công!\nMã kiểm duyệt: ${acceptanceId}\nNgười duyệt: ${user.displayName} (${user.title})`);
+      alert(`✅ Đã xuất file JSON nghiệm thu thành công!\n• File: acceptance-${rawTaskData.taskCode}-${currentUser.username}-${acceptanceId.substring(0, 8)}.json\n• Người duyệt: ${currentUser.displayName} (${currentUser.title})\n• Tiến độ: ${passedCount}/${userItems.length} (${Math.round((passedCount / userItems.length) * 100)}%)`);
     });
 
-    // SAO CHÉP LINK GỬI BOSS TRUY CẬP TRỰC TIẾP
-    document.getElementById('btnCopyBossLink').addEventListener('click', () => {
-      const url = new URL(window.location.href);
-      url.searchParams.set('u', 'chi');
-      const directUrl = url.toString();
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(directUrl).then(() => {
-          alert('📋 Đã sao chép link nghiệm thu trực tiếp cho Boss:\n' + directUrl + '\n\n👉 Boss chỉ cần bấm vào link là hệ thống tự nhận diện tài khoản Chị Chi để duyệt ngay mà không cần nhập mật khẩu!');
-        }).catch(() => {
-          prompt('Copy link nghiệm thu trực tiếp cho Boss:', directUrl);
-        });
-      } else {
-        prompt('Copy link nghiệm thu trực tiếp cho Boss:', directUrl);
-      }
-    });
-
-    // Khởi chạy khi load trang
+    // Khởi chạy
     initPage();
   </script>
 </body>
