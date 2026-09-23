@@ -9,9 +9,11 @@
 ## 1. Môi trường & Triển khai Máy chủ Web (IIS Hosting)
 - **Loại Website**: Static Web Application (HTML5 / Modern JavaScript / Tailwind CSS).
 - **Web Server**: Microsoft Internet Information Services (IIS).
+- **IIS Site Name**: `drv-tasks-site`.
 - **Physical Path**: `X:\acc\drv\slns\drv-tasks-sln`.
 - **Cổng Binding**: Port `5555` (`http://localhost:5555` hoặc `http://<IP-LAN>:5555`).
-- **Ưu điểm**: Khởi chạy tức thì, không tốn RAM máy chủ, không phụ thuộc môi trường runtime NodeJS/ASP.NET, độ ổn định 100%.
+- **Cấu hình IIS**: Tệp `web.config` đảm bảo phân giải đúng MIME type cho `.json` UTF-8 và thiết lập trang chủ `index.html`.
+- **Ưu điểm**: Khởi chạy tức thì, không tốn RAM máy chủ, không cần cài đặt Node.js/ASP.NET runtime trên IIS, độ ổn định 100%.
 
 ---
 
