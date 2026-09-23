@@ -70,6 +70,11 @@
           <span id="userRoleBadge" class="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded text-[10px] font-semibold uppercase">Quản lý</span>
         </div>
 
+        <button id="btnCopyBossLink" class="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg border border-indigo-200 transition flex items-center space-x-1.5" title="Sao chép link đăng nhập thẳng cho Boss (?u=chi)">
+          <i class="fa-solid fa-link"></i>
+          <span>Copy link gửi Boss</span>
+        </button>
+
         <button id="btnExportJson" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-md shadow-emerald-200 transition flex items-center space-x-2">
           <i class="fa-solid fa-file-arrow-down"></i>
           <span>Xuất JSON Nghiệm thu</span>
@@ -348,6 +353,22 @@
       downloadAnchor.remove();
 
       alert(`✅ Đã xuất file JSON nghiệm thu thành công!\nMã kiểm duyệt: ${acceptanceId}\nNgười duyệt: ${user.displayName} (${user.title})`);
+    });
+
+    // SAO CHÉP LINK GỬI BOSS TRUY CẬP TRỰC TIẾP
+    document.getElementById('btnCopyBossLink').addEventListener('click', () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('u', 'chi');
+      const directUrl = url.toString();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(directUrl).then(() => {
+          alert('📋 Đã sao chép link nghiệm thu trực tiếp cho Boss:\n' + directUrl + '\n\n👉 Boss chỉ cần bấm vào link là hệ thống tự nhận diện tài khoản Chị Chi để duyệt ngay mà không cần nhập mật khẩu!');
+        }).catch(() => {
+          prompt('Copy link nghiệm thu trực tiếp cho Boss:', directUrl);
+        });
+      } else {
+        prompt('Copy link nghiệm thu trực tiếp cho Boss:', directUrl);
+      }
     });
 
     // Khởi chạy khi load trang

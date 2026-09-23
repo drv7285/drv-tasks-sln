@@ -57,6 +57,9 @@ Hệ thống sử dụng xác thực Client-side qua JavaScript, lưu phiên an 
 - **Tài khoản `drv` / Mật khẩu `drv`**:
   - *Chức vụ*: Kỹ thuật (Dev / Tester).
   - *Quyền hạn*: Kiểm thử trước, soát lỗi, chạy demo (`role: "tester"`).
+- **Cơ chế Đăng nhập Trực tiếp qua URL (`?u=...` hoặc `?user=...`)**:
+  - Khi gửi đường dẫn kèm tham số `?u=chi` (hoặc `?user=chi`), hệ thống tự động coi `password == username`, cấp ngay phiên làm việc cho người dùng mà không bắt mở popup đăng nhập.
+  - Người gửi chỉ cần gửi link: `http://14.224.163.154:5555/tasks/2026/09/PQ-SDT-KH/?u=chi` để Boss bấm vào là duyệt được ngay.
 
 ---
 
