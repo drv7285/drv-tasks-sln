@@ -322,9 +322,13 @@
       document.getElementById('lblStorageUser').textContent = `${currentUser.username} (${currentUser.displayName})`;
     }
 
+    function getUserStorageKey() {
+      return `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}_v2`;
+    }
+
     // Tải dữ liệu nghiệm thu riêng của User từ localStorage
     function loadUserAcceptanceData() {
-      const storageKey = `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}`;
+      const storageKey = getUserStorageKey();
       const saved = localStorage.getItem(storageKey);
 
       if (saved) {
@@ -340,7 +344,7 @@
           userItems = JSON.parse(JSON.stringify(rawTaskData.items));
         }
       } else {
-        // Chưa có dữ liệu riêng: lấy template gốc
+        // Chưa có dữ liệu riêng: lấy template gốc (toàn bộ pending - 0/27)
         userItems = JSON.parse(JSON.stringify(rawTaskData.items));
         saveUserAcceptanceData();
       }
@@ -349,15 +353,15 @@
     // Tự động lưu dữ liệu của user vào localStorage
     function saveUserAcceptanceData() {
       if (!currentUser || !userItems.length) return;
-      const storageKey = `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}`;
+      const storageKey = getUserStorageKey();
       const payload = userItems.map(x => ({ id: x.id, status: x.status, note: x.note || "" }));
       localStorage.setItem(storageKey, JSON.stringify(payload));
     }
 
     // Khôi phục dữ liệu mặc định của user
     window.resetUserData = () => {
-      if (!confirm(`Bạn có chắc chắn muốn khôi phục lại trạng thái mặc định của người duyệt [${currentUser.displayName}] không?`)) return;
-      const storageKey = `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}`;
+      if (!confirm(`Bạn có chắc chắn muốn khôi phục lại trạng thái mặc định (chưa duyệt) của người duyệt [${currentUser.displayName}] không?`)) return;
+      const storageKey = getUserStorageKey();
       localStorage.removeItem(storageKey);
       loadUserAcceptanceData();
       renderTree();

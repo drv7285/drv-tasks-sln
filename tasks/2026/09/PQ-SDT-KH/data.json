@@ -15,7 +15,7 @@
       "componentLocation": "Panel chi tiết bên trái + Bảng danh sách nhóm bên phải",
       "lockedBehavior": "Thêm Checkbox 'Xem SĐT khách hàng', thêm cột 'Xem SĐT KH' trên bảng và nút shortcut '[🛡️ Phân quyền nhóm...]'",
       "testInstruction": "Vào menu Hệ thống > Nhóm người dùng: kiểm tra xem nhóm đã có cột Xem SĐT KH và checkbox tương ứng chưa",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -26,7 +26,7 @@
       "componentLocation": "Tab Phân quyền nhóm người dùng",
       "lockedBehavior": "Tự động chọn đúng nhóm người dùng khi mở từ nút tắt",
       "testInstruction": "Bấm nút [🛡️ Phân quyền nhóm...] tại màn hình nhóm: form tự nhảy sang đúng nhóm",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -37,7 +37,7 @@
       "componentLocation": "Ô nhập 'Số điện thoại' trên panel chi tiết",
       "lockedBehavior": "Ô SĐT hiển thị '***', nền xám, ReadOnly, tooltip cảnh báo; giữ nguyên số gốc khi lưu thông tin khác",
       "testInstruction": "Đăng nhập bằng user không có quyền, vào Quản lý khách hàng: ô SĐT bị che *** nền xám không sửa được",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -48,7 +48,7 @@
       "componentLocation": "Ô Số điện thoại + Bảng tìm Người giới thiệu",
       "lockedBehavior": "Ô SĐT chính bị khóa; cột SĐT người giới thiệu trong bảng tra cứu bị ẩn hoàn toàn",
       "testInstruction": "Mở popup sửa khách: kiểm tra ô SĐT và bảng chọn người giới thiệu",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -59,7 +59,7 @@
       "componentLocation": "Ô thông tin SĐT khách tiếp nhận",
       "lockedBehavior": "Ô SĐT hiển thị '***', nền xám, ReadOnly và hiển thị tooltip cảnh báo",
       "testInstruction": "Vào màn hình tiếp đón khách: ô SĐT khách đến hiển thị ***",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -70,7 +70,7 @@
       "componentLocation": "Cột 'Điện thoại' trên bảng danh sách",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn; mở Bộ chọn cột (Column Chooser) cũng bị khóa không cho lôi ra",
       "testInstruction": "Mở báo cáo khách hàng: không thấy cột SĐT; chuột phải vào tiêu đề cột chọn Column Chooser kiểm tra",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -81,7 +81,7 @@
       "componentLocation": "Danh sách gợi ý khách hàng xổ xuống",
       "lockedBehavior": "Cột SĐT trong bảng gợi ý tìm kiếm tự động che thành '***'",
       "testInstruction": "Gõ tìm kiếm tên khách hàng: danh sách xổ xuống cột SĐT hiện ***",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -92,7 +92,7 @@
       "componentLocation": "Cột 'Điện thoại' trên bảng đối soát dữ liệu",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn và khóa hiển thị 3 lớp",
       "testInstruction": "Vào màn hình kiểm tra dữ liệu khách: cột Điện thoại không hiển thị",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -103,7 +103,7 @@
       "componentLocation": "Ô 'Điện thoại' trên thẻ hẹn + Bảng tìm khách",
       "lockedBehavior": "Ô SĐT hiển thị '***' và bị khóa; bảng tìm khách ẩn cột SĐT; không bị báo lỗi định dạng SĐT khi lưu",
       "testInstruction": "Mở thẻ hẹn: ô SĐT hiện ***, lưu phiếu không báo lỗi số điện thoại",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -114,7 +114,7 @@
       "componentLocation": "Ô tìm kiếm nhanh khách hẹn góc trên",
       "lockedBehavior": "Danh sách kết quả tìm khách hẹn tự động che SĐT thành '***'",
       "testInstruction": "Vào sơ đồ lịch hẹn: tìm kiếm khách hẹn, cột SĐT trong danh sách kết quả hiện ***",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -125,7 +125,7 @@
       "componentLocation": "Cột 'Điện thoại' trên bảng theo dõi",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn và bị khóa trong Column Chooser",
       "testInstruction": "Mở báo cáo khách ra vào: cột SĐT không xuất hiện trên bảng",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -136,7 +136,7 @@
       "componentLocation": "Cột 'Số điện thoại' trên bảng danh sách CSKH",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn khỏi bảng lưới dữ liệu",
       "testInstruction": "Vào màn hình CSKH: bảng danh sách khách cần chăm sóc không có cột SĐT",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -147,7 +147,7 @@
       "componentLocation": "Nhãn & giá trị SĐT trên thẻ + Bảng chọn khách",
       "lockedBehavior": "Nhãn và giá trị SĐT bị ẩn hoàn toàn; dropdown chọn khách cũng giấu cột SĐT",
       "testInstruction": "Mở thẻ chi tiết công việc CSKH: không thấy ô SĐT của khách",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -158,7 +158,7 @@
       "componentLocation": "Thanh tiêu đề cửa sổ (Window Title)",
       "lockedBehavior": "Tiêu đề cửa sổ tự động che số điện thoại thành '***' thay vì hiển thị số thật",
       "testInstruction": "Nhìn lên thanh tiêu đề cửa sổ: hiển thị dạng 'Họ tên / ***' không lộ số thật",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -169,7 +169,7 @@
       "componentLocation": "Cột 'Số điện thoại' trên danh sách dịch vụ",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn và che '***'",
       "testInstruction": "Mở bảng chăm sóc dịch vụ: không thấy cột SĐT",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -180,7 +180,7 @@
       "componentLocation": "Cột 'Điện thoại' trên bảng hàng đợi & bảng tra cứu khách",
       "lockedBehavior": "Cột SĐT bị ẩn trên cả bảng hàng đợi chính và bảng tra cứu chọn khách hàng",
       "testInstruction": "Vào Hàng đợi SMS: không có cột SĐT trên bảng và bảng chọn khách",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -191,7 +191,7 @@
       "componentLocation": "Cột SĐT trên bảng tiến trình & bảng log",
       "lockedBehavior": "Cột SĐT người nhận bị ẩn hoàn toàn và che '***' trên cả bảng tiến trình và bảng log",
       "testInstruction": "Mở Tiến trình gửi tin: cột SĐT người nhận không hiển thị",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -202,7 +202,7 @@
       "componentLocation": "Bảng tra cứu chọn khách hàng để gửi tin",
       "lockedBehavior": "Bảng tra cứu chọn khách hàng bị ẩn cột SĐT",
       "testInstruction": "Mở gửi tin nhắn: bấm chọn khách hàng, bảng danh sách không lộ cột SĐT",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -213,7 +213,7 @@
       "componentLocation": "Thanh tiêu đề cửa sổ gửi SMS",
       "lockedBehavior": "Tiêu đề cửa sổ che số điện thoại thành '***'",
       "testInstruction": "Bấm gửi SMS nhanh: thanh tiêu đề form che số điện thoại thành ***",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -224,7 +224,7 @@
       "componentLocation": "Cột 'Điện thoại' trên bảng + File Excel xuất ra",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn; khi bấm [Xuất Excel] file tải về không hề có số điện thoại",
       "testInstruction": "Vào Báo cáo điều trị: xem bảng không có cột SĐT; bấm Xuất Excel mở file kiểm tra số điện thoại đã bị che ***",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -235,7 +235,7 @@
       "componentLocation": "Cột SĐT trên bảng chính & bảng chọn khách",
       "lockedBehavior": "Cột SĐT trong danh sách ghi chú và bảng chọn khách hàng bị ẩn hoàn toàn",
       "testInstruction": "Mở ghi chú nha khoa: cột SĐT trên bảng và ô chọn khách đều bị giấu",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -246,7 +246,7 @@
       "componentLocation": "Bảng tra cứu chọn khách hàng",
       "lockedBehavior": "Dropdown chọn khách hàng được ẩn cột SĐT và che '***'",
       "testInstruction": "Mở nhu cầu khách hàng: dropdown chọn khách không hiện cột SĐT",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -257,7 +257,7 @@
       "componentLocation": "Ô 'Điện thoại' trên phiếu gửi Labo",
       "lockedBehavior": "Ô SĐT hiển thị '***', bị khóa ReadOnly và hiển thị tooltip cảnh báo",
       "testInstruction": "Mở phiếu gửi Labo: ô Điện thoại hiện *** không sửa được",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -268,7 +268,7 @@
       "componentLocation": "Bảng tra cứu chọn bệnh nhân chỉ định",
       "lockedBehavior": "Bảng chọn bệnh nhân chỉ định cận lâm sàng bị ẩn cột SĐT",
       "testInstruction": "Mở chỉ định cận lâm sàng: bảng chọn bệnh nhân không hiện SĐT",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -279,7 +279,7 @@
       "componentLocation": "Ô 'Điện thoại' trong khung thông tin khách",
       "lockedBehavior": "Ô SĐT hiển thị '***', bị khóa chỉnh sửa, có tooltip cảnh báo không có quyền",
       "testInstruction": "Vào màn hình lập phiếu thu: ô SĐT của khách hiển thị *** kèm tooltip cảnh báo",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -290,7 +290,7 @@
       "componentLocation": "Cột 'Số điện thoại' trên bảng công nợ",
       "lockedBehavior": "Cột SĐT bị ẩn hoàn toàn và che '***'",
       "testInstruction": "Mở bảng quản lý công nợ: không có cột SĐT khách hàng",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     },
     {
@@ -301,7 +301,7 @@
       "componentLocation": "Ô SĐT phiếu chi + Cột SĐT bảng hoa hồng",
       "lockedBehavior": "Ô SĐT trên phiếu chi hiển thị '***'; cột SĐT trên bảng báo cáo hoa hồng bị ẩn",
       "testInstruction": "Mở báo cáo hoa hồng: cột SĐT bị giấu; mở phiếu chi hoa hồng: ô SĐT hiện ***",
-      "status": "passed",
+      "status": "pending",
       "note": ""
     }
   ]
