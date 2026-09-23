@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <ProjectGuid>{A0CCCD55-555E-756C-B330-1E3D6AF8C6EB}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="index.html" CopyToPublishDirectory="Always" />
+    <Content Include="assets\**" CopyToPublishDirectory="Always" />
+    <Content Include="tasks\**" CopyToPublishDirectory="Always" />
+    <None Include="web.config" CopyToPublishDirectory="Always" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="RULES.md" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
+</Project>

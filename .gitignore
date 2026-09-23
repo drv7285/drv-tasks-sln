@@ -4,3 +4,5 @@
 *.user
 Thumbs.db
 Desktop.ini
+bin/
+obj/

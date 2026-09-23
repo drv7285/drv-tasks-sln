@@ -69,3 +69,14 @@ Trên giao diện nghiệm thu của Boss:
   3. *Vị trí trên giao diện*: Cột bảng, ô nhập liệu, ô tìm kiếm hay tiêu đề form.
   4. *Hành vi khi bị khóa*: Nêu rõ biểu hiện thực tế (Ẩn cột, che `***`, nền xám, chặn xuất Excel).
   5. *Hướng dẫn kiểm tra nhanh*: Hướng dẫn 1 thao tác cụ thể để Boss kiểm tra ngay trên app.
+
+---
+
+## 6. Tích hợp Visual Studio Solution & 1-Click Publish IIS
+- **Visual Studio Solution**: `drv-tasks-sln.sln` kết nối dự án `drv-tasks-site.csproj` (.NET 8 Web SDK).
+- **Cấu hình Publish Profile**: `Properties\PublishProfiles\IISProfile.pubxml` cấu hình sẵn MSDeploy trỏ trực tiếp đến IIS site `drv-tasks-site`.
+- **Thao tác 1-Click từ Visual Studio**:
+  1. Mở `drv-tasks-sln.sln` bằng Visual Studio 2022.
+  2. Nhấp chuột phải vào dự án `drv-tasks-site` $\rightarrow$ chọn **Publish...**.
+  3. Profile `IISProfile` đã được chọn sẵn $\rightarrow$ Nhấn nút **Publish**.
+  4. Visual Studio tự động build, đóng gói toàn bộ `index.html`, `assets/`, `tasks/` và đẩy trực tiếp lên IIS site `drv-tasks-site` trên cổng 5555.
