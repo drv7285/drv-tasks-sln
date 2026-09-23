@@ -11,7 +11,7 @@
 - **Web Server**: Microsoft Internet Information Services (IIS).
 - **IIS Site Name**: `drv-tasks-site`.
 - **Physical Path**: `X:\acc\drv\slns\drv-tasks-sln`.
-- **Cổng Binding**: Port `5555` (`http://localhost:5555` hoặc `http://<IP-LAN>:5555`).
+- **Cổng Binding**: Port `5555` (`http://14.224.163.154:5555` hoặc nội bộ `http://192.168.1.32:5555`).
 - **Cấu hình IIS**: Tệp `web.config` đảm bảo phân giải đúng MIME type cho `.json` UTF-8 và thiết lập trang chủ `index.html`.
 - **Ưu điểm**: Khởi chạy tức thì, không tốn RAM máy chủ, không cần cài đặt Node.js/ASP.NET runtime trên IIS, độ ổn định 100%.
 
@@ -79,4 +79,4 @@ Trên giao diện nghiệm thu của Boss:
   1. Mở `drv-tasks-sln.sln` bằng Visual Studio 2022.
   2. Nhấp chuột phải vào dự án `drv-tasks-site` $\rightarrow$ chọn **Publish...**.
   3. Profile `IISProfile` đã được chọn sẵn $\rightarrow$ Nhấn nút **Publish**.
-  4. Visual Studio tự động build, đóng gói toàn bộ `index.html`, `assets/`, `tasks/` và đẩy trực tiếp lên IIS site `drv-tasks-site` trên cổng 5555.
+  4. Visual Studio tự động build, đóng gói toàn bộ `index.html`, `assets/`, `tasks/` và đẩy trực tiếp lên IIS site `drv-tasks-site` trên cổng 5555 (tự động mở `http://14.224.163.154:5555/` sau khi hoàn tất).
