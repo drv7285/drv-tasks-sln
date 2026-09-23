@@ -184,7 +184,7 @@
             <span class="px-2 py-0.5 text-xs font-mono font-bold bg-indigo-50 text-indigo-700 rounded border border-indigo-200">PQ-SDT-KH</span>
             <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Phân quyền & Khóa ẩn SĐT Khách hàng</h1>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">7 phân hệ • 27 vị trí kiểm thử • Minh chứng ảnh thực tế</p>
+          <p class="text-xs text-slate-500 mt-0.5">8 phân hệ • 45 vị trí kiểm thử (28 Giao diện + 17 Xuất Excel) • 5 Minh chứng ảnh thực tế</p>
         </div>
       </div>
 
@@ -271,18 +271,18 @@
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
         <span class="text-xs text-slate-500 font-medium">Quy mô</span>
-        <p class="text-2xl font-bold text-slate-900 mt-1">7 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 27 <span class="text-xs text-slate-400 font-normal">vị trí</span></p>
+        <p class="text-2xl font-bold text-slate-900 mt-1">8 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 45 <span class="text-xs text-slate-400 font-normal">vị trí</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-indigo-400 hover:shadow-md transition group" onclick="switchViewMode('gallery')" title="Bấm để chuyển nhanh sang xem toàn bộ Minh chứng Ảnh">
         <div class="flex items-center justify-between">
           <span class="text-xs text-slate-500 font-medium">Minh chứng</span>
           <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100 group-hover:bg-indigo-600 group-hover:text-white transition">Xem ảnh ➔</span>
         </div>
-        <p class="text-2xl font-bold text-indigo-600 mt-1">4 <span class="text-xs text-slate-400 font-normal">ảnh chụp</span></p>
+        <p class="text-2xl font-bold text-indigo-600 mt-1">5 <span class="text-xs text-slate-400 font-normal">ảnh chụp</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
         <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu</span>
-        <p id="statsPassedCount" class="text-2xl font-bold text-emerald-600 mt-1">0 / 27</p>
+        <p id="statsPassedCount" class="text-2xl font-bold text-emerald-600 mt-1">0 / 45</p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between">
@@ -298,37 +298,45 @@
     <!-- TOOLBAR: VIEW SWITCHER + SEARCH & TREE ACTIONS -->
     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
       
-      <!-- Left: View Mode Tabs (Cây vs Ảnh) -->
-      <div class="flex items-center bg-slate-100 p-1 rounded-xl w-full md:w-auto">
-        <button id="tabTreeMode" onclick="switchViewMode('tree')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm">
-          <i class="fa-solid fa-list-tree"></i>
-          <span>Danh sách cây (27)</span>
+      <!-- Left: Filter & View Mode Tabs -->
+      <div class="flex flex-wrap items-center bg-slate-100 p-1 rounded-xl w-full md:w-auto gap-1">
+        <button id="tabFilterAll" onclick="switchFilterCategory('all')" class="flex-1 md:flex-initial px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Tất cả (45)</span>
         </button>
-        <button id="tabGalleryMode" onclick="switchViewMode('gallery')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
-          <i class="fa-solid fa-images text-indigo-500"></i>
-          <span>Minh chứng ảnh (4)</span>
+        <button id="tabFilterUI" onclick="switchFilterCategory('ui')" class="flex-1 md:flex-initial px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-desktop text-blue-500"></i>
+          <span>Giao diện (28)</span>
+        </button>
+        <button id="tabFilterExport" onclick="switchFilterCategory('export')" class="flex-1 md:flex-initial px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-file-excel text-emerald-600"></i>
+          <span>Xuất Excel Zero-Phone (17)</span>
+        </button>
+        <button id="tabGalleryMode" onclick="switchViewMode('gallery')" class="flex-1 md:flex-initial px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-images text-purple-600"></i>
+          <span>Minh chứng (5)</span>
         </button>
       </div>
 
       <!-- Center: Search input -->
-      <div class="relative w-full md:w-80">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-        <input type="text" id="searchInput" placeholder="Tìm màn hình, menu, vị trí..." class="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-slate-200 focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
+      <div class="relative w-full md:w-72">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400 text-xs"></i>
+        <input type="text" id="searchInput" placeholder="Tìm màn hình, menu, báo cáo..." class="w-full pl-9 pr-4 py-1.5 text-xs rounded-lg border border-slate-200 focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
       </div>
 
       <!-- Right: Tree action buttons -->
       <div id="treeActionGroup" class="flex items-center space-x-2 w-full md:w-auto justify-end">
-        <button id="btnExpandAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
+        <button id="btnExpandAll" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
           <i class="fa-solid fa-folder-open text-slate-500"></i>
-          <span>Mở tất cả</span>
+          <span>Mở</span>
         </button>
-        <button id="btnCollapseAll" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
+        <button id="btnCollapseAll" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1">
           <i class="fa-solid fa-folder-closed text-slate-500"></i>
-          <span>Thu gọn</span>
+          <span>Thu</span>
         </button>
         <button id="btnCheckAll" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg border border-emerald-200 transition flex items-center space-x-1.5 shadow-sm">
           <i class="fa-solid fa-circle-check text-emerald-600"></i>
-          <span>Duyệt Đạt tất cả (27)</span>
+          <span id="btnCheckAllLabel">Duyệt Đạt tất cả (45)</span>
         </button>
       </div>
     </div>
@@ -359,8 +367,10 @@
     let collapsedModules = new Set(); // Theo dõi trạng thái đóng/mở của các phân hệ Level 1
     let searchQuery = '';
     let currentViewMode = 'tree'; // 'tree' hoặc 'gallery'
+    let filterCategory = 'all'; // 'all', 'ui', 'export'
+    const EXPORT_DOMAIN = "Báo cáo & Xuất Excel (Zero-Phone Export)";
 
-    // Metadata icon & màu sắc cho 7 Phân hệ Level 1
+    // Metadata icon & màu sắc cho các Phân hệ Level 1
     const DOMAIN_METADATA = {
       "Quản trị & Phân quyền": { icon: "fa-shield-halved", color: "indigo", badgeClass: "bg-indigo-50 text-indigo-700 border-indigo-200" },
       "Hồ sơ Khách hàng & Lễ tân": { icon: "fa-user-check", color: "blue", badgeClass: "bg-blue-50 text-blue-700 border-blue-200" },
@@ -370,7 +380,8 @@
       "Chăm sóc Khách hàng (CSKH)": { icon: "fa-comment-sms", color: "sky", badgeClass: "bg-sky-50 text-sky-700 border-sky-200" },
       "Tin nhắn SMS & Chăm sóc KH": { icon: "fa-comment-sms", color: "sky", badgeClass: "bg-sky-50 text-sky-700 border-sky-200" },
       "Thu ngân & Labo Phục hình": { icon: "fa-cash-register", color: "amber", badgeClass: "bg-amber-50 text-amber-700 border-amber-200" },
-      "Báo cáo & Thống kê": { icon: "fa-chart-pie", color: "purple", badgeClass: "bg-purple-50 text-purple-700 border-purple-200" }
+      "Báo cáo & Thống kê": { icon: "fa-chart-pie", color: "purple", badgeClass: "bg-purple-50 text-purple-700 border-purple-200" },
+      "Báo cáo & Xuất Excel (Zero-Phone Export)": { icon: "fa-file-excel", color: "emerald", badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200" }
     };
 
     // Khởi chạy khi tải trang
@@ -395,10 +406,14 @@
       // 3. Tải trạng thái lưu trữ riêng của user hiện tại
       loadUserAcceptanceData();
 
-      // 4. Kiểm tra URL nếu có yêu cầu mở tab Gallery trước (?view=gallery hoặc ?tab=gallery)
+      // 4. Kiểm tra URL nếu có yêu cầu mở tab Gallery trước (?view=gallery hoặc ?tab=gallery) hoặc lọc export (?tab=export)
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('view') === 'gallery' || urlParams.get('tab') === 'gallery') {
         switchViewMode('gallery');
+      } else if (urlParams.get('filter') === 'export' || urlParams.get('tab') === 'export') {
+        switchFilterCategory('export');
+      } else if (urlParams.get('filter') === 'ui' || urlParams.get('tab') === 'ui') {
+        switchFilterCategory('ui');
       } else {
         renderCurrentView();
       }
@@ -471,21 +486,49 @@
       document.getElementById('loginModal').classList.remove('hidden');
     };
 
+    // Cập nhật giao diện các Tab lọc
+    function updateTabStyles() {
+      const activeClass = "flex-1 md:flex-initial px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm";
+      const inactiveClass = "flex-1 md:flex-initial px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900";
+
+      const tabAll = document.getElementById('tabFilterAll');
+      const tabUI = document.getElementById('tabFilterUI');
+      const tabExport = document.getElementById('tabFilterExport');
+      const tabGallery = document.getElementById('tabGalleryMode');
+
+      if (currentViewMode === 'gallery') {
+        if (tabAll) tabAll.className = inactiveClass;
+        if (tabUI) tabUI.className = inactiveClass;
+        if (tabExport) tabExport.className = inactiveClass;
+        if (tabGallery) tabGallery.className = activeClass;
+      } else {
+        if (tabGallery) tabGallery.className = inactiveClass;
+        if (tabAll) tabAll.className = (filterCategory === 'all') ? activeClass : inactiveClass;
+        if (tabUI) tabUI.className = (filterCategory === 'ui') ? activeClass : inactiveClass;
+        if (tabExport) tabExport.className = (filterCategory === 'export') ? activeClass : inactiveClass;
+      }
+    }
+
+    // Chuyển đổi danh mục lọc: Tất cả vs Giao diện vs Xuất Excel
+    window.switchFilterCategory = (cat) => {
+      filterCategory = cat;
+      currentViewMode = 'tree';
+      updateTabStyles();
+      const treeActionGroup = document.getElementById('treeActionGroup');
+      if (treeActionGroup) treeActionGroup.classList.remove('hidden');
+      renderCurrentView();
+    };
+
     // Chuyển đổi chế độ xem: Tree vs Gallery
     window.switchViewMode = (mode) => {
       currentViewMode = mode;
-      const tabTree = document.getElementById('tabTreeMode');
-      const tabGallery = document.getElementById('tabGalleryMode');
+      updateTabStyles();
       const treeActionGroup = document.getElementById('treeActionGroup');
 
       if (mode === 'tree') {
-        tabTree.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm";
-        tabGallery.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900";
-        treeActionGroup.classList.remove('hidden');
+        if (treeActionGroup) treeActionGroup.classList.remove('hidden');
       } else {
-        tabGallery.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-indigo-700 shadow-sm";
-        tabTree.className = "flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900";
-        treeActionGroup.classList.add('hidden');
+        if (treeActionGroup) treeActionGroup.classList.add('hidden');
       }
 
       renderCurrentView();
@@ -518,9 +561,29 @@
       const container = document.getElementById('viewContainer');
       container.innerHTML = '';
 
+      // Lọc danh sách items theo tab lọc đang chọn
+      let visibleItems = userItems;
+      if (filterCategory === 'ui') {
+        visibleItems = userItems.filter(x => x.domain !== EXPORT_DOMAIN);
+      } else if (filterCategory === 'export') {
+        visibleItems = userItems.filter(x => x.domain === EXPORT_DOMAIN);
+      }
+
+      // Cập nhật nhãn nút Duyệt Đạt
+      const btnCheckAllLabel = document.getElementById('btnCheckAllLabel');
+      if (btnCheckAllLabel) {
+        if (filterCategory === 'export') {
+          btnCheckAllLabel.textContent = `Duyệt Đạt ${visibleItems.length} Báo cáo`;
+        } else if (filterCategory === 'ui') {
+          btnCheckAllLabel.textContent = `Duyệt Đạt ${visibleItems.length} Giao diện`;
+        } else {
+          btnCheckAllLabel.textContent = `Duyệt Đạt tất cả (${userItems.length})`;
+        }
+      }
+
       // Gom nhóm theo Phân hệ (Domain)
       const domainGroups = {};
-      userItems.forEach(item => {
+      visibleItems.forEach(item => {
         if (!domainGroups[item.domain]) {
           domainGroups[item.domain] = [];
         }
@@ -838,10 +901,20 @@
       renderCurrentView();
     });
 
-    // Duyệt đạt tất cả 27 màn hình
+    // Duyệt đạt tất cả
     document.getElementById('btnCheckAll').addEventListener('click', () => {
-      if (!confirm(`Bạn có chắc muốn đánh dấu ĐẠT TOÀN BỘ 27 màn hình cho người duyệt [${currentUser.displayName}]?`)) return;
-      userItems.forEach(it => it.status = 'passed');
+      let targetItems = userItems;
+      let targetDesc = `TOÀN BỘ ${userItems.length} vị trí`;
+      if (filterCategory === 'export') {
+        targetItems = userItems.filter(x => x.domain === EXPORT_DOMAIN);
+        targetDesc = `toàn bộ ${targetItems.length} báo cáo xuất Excel`;
+      } else if (filterCategory === 'ui') {
+        targetItems = userItems.filter(x => x.domain !== EXPORT_DOMAIN);
+        targetDesc = `toàn bộ ${targetItems.length} màn hình giao diện`;
+      }
+
+      if (!confirm(`Bạn có chắc muốn đánh dấu ĐẠT cho ${targetDesc} của người duyệt [${currentUser.displayName}]?`)) return;
+      targetItems.forEach(it => it.status = 'passed');
       saveUserAcceptanceData();
       renderCurrentView();
     });

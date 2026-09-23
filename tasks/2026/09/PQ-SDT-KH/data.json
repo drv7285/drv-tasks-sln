@@ -32,6 +32,18 @@
       "image": "images/02-phan-quyen-chi-tiet.png"
     },
     {
+      "id": "01a0ce23-6826-71f1-8a10-3ee219886b8e",
+      "domain": "Quản trị & Phân quyền",
+      "screenName": "Quản lý Tài khoản & Gợi ý Phân quyền SĐT",
+      "menuPath": "Hệ thống > Tài khoản",
+      "componentLocation": "Hộp thoại Phân quyền xem số điện thoại khách hàng khi bấm [Lưu]",
+      "lockedBehavior": "Tự động nhận diện nhóm vai trò, hiển thị khuyến nghị hệ thống CHẶN hoặc CHO PHÉP xem SĐT; hỗ trợ ghi đè quyền riêng hoặc kế thừa theo nhóm",
+      "testInstruction": "Menu Hệ thống > Tài khoản: sửa tài khoản hoặc chọn nhóm vai trò, bấm [Lưu] để kiểm tra popup phân quyền thông minh",
+      "status": "pending",
+      "note": "",
+      "image": "images/05-phan-quyen-tai-khoan.png"
+    },
+    {
       "id": "01a0cccd-5560-7bde-943f-f467b86bfa15",
       "domain": "Hồ sơ Khách hàng & Lễ tân",
       "screenName": "Quản lý Hồ sơ Khách hàng",
@@ -305,6 +317,193 @@
       "componentLocation": "Ô SĐT phiếu chi + Cột SĐT bảng hoa hồng",
       "lockedBehavior": "Ô SĐT trên phiếu chi hiển thị '***'; cột SĐT trên bảng báo cáo hoa hồng bị ẩn",
       "testInstruction": "Mở Kế toán > Quản lý hoa hồng: kiểm tra bảng báo cáo và mở phiếu chi",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9a-7613-aff2-ebd32265f6c9",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Báo cáo Phiếu thu (FReceiptsRpt)",
+      "menuPath": "Kế toán / Thu ngân > Báo cáo phiếu thu",
+      "componentLocation": "Nút [Xuất Excel] mặc định & nút xuất tùy biến",
+      "lockedBehavior": "ToExcelSilentSafe tự động triệt tiêu cột SĐT; gỡ bỏ cột SĐT khỏi cả hàm xuất tùy biến",
+      "testInstruction": "Đăng nhập bất kỳ tài khoản nào: Bấm [Xuất Excel], mở file tải về kiểm tra 100% không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-758f-b00d-a984b053c4db",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Báo cáo Danh sách Khách hàng (FRptCustomers)",
+      "menuPath": "Báo cáo > Báo cáo khách hàng",
+      "componentLocation": "Nút [Xuất Excel] trên thanh công cụ",
+      "lockedBehavior": "ToExcelSilentSafe loại bỏ hoàn toàn cột SĐT khỏi file Excel danh sách khách hàng",
+      "testInstruction": "Mở Báo cáo khách hàng > Bấm [Xuất Excel] > Kiểm tra file Excel xuất ra không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-72d7-ba7a-7c1617fbaa81",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Quản lý & Báo cáo Công nợ (FMgmtDeb)",
+      "menuPath": "Kế toán > Quản lý công nợ",
+      "componentLocation": "Nút [Xuất Excel] trên lưới công nợ",
+      "lockedBehavior": "ToExcelOpenSafe: file Excel công nợ chỉ có Mã KH, Tên, Tiền; triệt tiêu cột SĐT",
+      "testInstruction": "Mở Quản lý công nợ > Bấm [Xuất Excel] > Mở file kiểm tra không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7465-bdfe-0e0d7cc08e7e",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Doanh thu Công nợ Điều trị (FRptTreatmentDebt)",
+      "menuPath": "Báo cáo > Báo cáo doanh thu công nợ điều trị",
+      "componentLocation": "Nút [Xuất Excel] trên bảng danh sách",
+      "lockedBehavior": "ToExcelOpenSafe: bảo vệ dữ liệu doanh thu công nợ, không xuất cột SĐT ra Excel",
+      "testInstruction": "Mở Báo cáo doanh thu công nợ > Bấm [Xuất Excel] > Kiểm tra file không chứa SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-76a2-8682-a3a622caa648",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Báo cáo Công tác Điều trị (FRptTreatment)",
+      "menuPath": "Báo cáo > Báo cáo điều trị",
+      "componentLocation": "Nút [Xuất Excel] trên lưới điều trị",
+      "lockedBehavior": "ToExcelOpenSafe: tự động ẩn cột SĐT trước khi xuất và hoàn trả trạng thái sau khi xuất xong",
+      "testInstruction": "Mở Báo cáo điều trị > Bấm [Xuất Excel] > Kiểm tra file Excel không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7ffb-adf7-9399dbaffc83",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Hồ sơ / Đơn hàng Điều trị (FMgmtOrders)",
+      "menuPath": "Điều trị > Quản lý hồ sơ đơn hàng",
+      "componentLocation": "Nút [Xuất Excel] trên danh sách đơn hàng",
+      "lockedBehavior": "ToExcelOpenSafe: xuất dữ liệu đơn hàng không kèm cột số điện thoại khách hàng",
+      "testInstruction": "Mở Quản lý đơn hàng > Bấm [Xuất Excel] > Kiểm tra file Excel không có SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7b31-b9b6-a808fa32f38d",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Chăm sóc Khách hàng (UcCustomerCare)",
+      "menuPath": "CSKH > Chăm sóc khách hàng",
+      "componentLocation": "Nút [Xuất Excel] trên lưới công việc CSKH",
+      "lockedBehavior": "ToExcelOpenSafe: file Excel xuất công tác chăm sóc không chứa số điện thoại",
+      "testInstruction": "Mở Chăm sóc khách hàng > Bấm [Xuất Excel] > Kiểm tra file Excel không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7719-af96-bfd9307b2b35",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Chi tiết Chăm sóc theo Đơn hàng (FMgmtTakeCareOrderItems)",
+      "menuPath": "CSKH > Chi tiết việc chăm sóc đơn hàng",
+      "componentLocation": "Nút [Xuất Excel] trên lưới chi tiết",
+      "lockedBehavior": "ToExcelOpenSafe: bảo vệ danh sách chi tiết việc chăm sóc không lộ SĐT khi xuất",
+      "testInstruction": "Mở Chi tiết chăm sóc đơn hàng > Bấm [Xuất Excel] > Kiểm tra file tải về",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7302-be27-714d53af62c9",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Báo cáo Phiếu chi (FProcessPaymentsReport)",
+      "menuPath": "Kế toán > Báo cáo phiếu chi",
+      "componentLocation": "Nút [Xuất Excel] danh sách phiếu chi",
+      "lockedBehavior": "ToExcelOpenSafe: file Excel chi tiền hoàn toàn không chứa số điện thoại người nhận",
+      "testInstruction": "Mở Báo cáo phiếu chi > Bấm [Xuất Excel] > Kiểm tra file Excel không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7bfd-9910-9ae0649ac831",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Doanh thu Chi nhánh (FMainReceiptsSummaries)",
+      "menuPath": "Báo cáo > Doanh thu tổng hợp theo chi nhánh",
+      "componentLocation": "Nút [Xuất Excel] trên bảng doanh thu",
+      "lockedBehavior": "ToExcelOpenSafe: báo cáo tài chính tổng hợp chỉ hiển thị mã số và số tiền, không xuất SĐT",
+      "testInstruction": "Mở Doanh thu tổng hợp > Bấm [Xuất Excel] > Kiểm tra file không chứa SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7bff-b3f1-409cf9d40b97",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Báo cáo Hoa hồng Nhân viên/BS (UcRoseResults)",
+      "menuPath": "Kế toán > Quản lý hoa hồng",
+      "componentLocation": "Nút [Xuất Excel] bảng tính hoa hồng",
+      "lockedBehavior": "ToExcelOpenSafe: bảng kê hoa hồng chi trả không đính kèm SĐT khách hàng",
+      "testInstruction": "Mở Quản lý hoa hồng > Bấm [Xuất Excel] > Kiểm tra file không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7e92-a69c-46a5dee057fc",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Kiểm tra Dữ liệu Khách hàng (FCheckCustomerData)",
+      "menuPath": "Tiện ích > Kiểm tra dữ liệu KH",
+      "componentLocation": "Nút [Xuất Excel] trên lưới đối soát dữ liệu",
+      "lockedBehavior": "ToExcelOpenSafe: triệt tiêu cột SĐT khi xuất dữ liệu tiện ích đối soát",
+      "testInstruction": "Mở Tiện ích > Kiểm tra dữ liệu KH > Bấm [Xuất Excel] > Kiểm tra file không có SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7c06-b9f5-5a5683ca7f4b",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Tiến trình Gửi Tin SMS / Zalo (FMgmtMessageProcessItem)",
+      "menuPath": "SMS > Tiến trình gửi tin",
+      "componentLocation": "Nút [Xuất Excel] danh sách gửi tin hàng loạt",
+      "lockedBehavior": "ToExcelOpenSafe: tự động ẩn cột CustomerPhoneNumber khi xuất file ngăn chặn trích xuất tệp SĐT",
+      "testInstruction": "Mở SMS > Tiến trình gửi tin > Bấm [Xuất Excel] > Mở file kiểm tra tuyệt đối không có SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7530-a241-d59895705edd",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Khách Ra / Vào Phòng khám (FRptCustomerInOut)",
+      "menuPath": "Báo cáo > Khách ra vào phòng khám",
+      "componentLocation": "Nút [Xuất Excel] theo dõi lượt khách",
+      "lockedBehavior": "ToExcelOpenSafe: file Excel lượt khách ra vào không chứa số điện thoại",
+      "testInstruction": "Mở Báo cáo khách ra vào > Bấm [Xuất Excel] > Kiểm tra file không có cột SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7076-b470-f24791638d1b",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Danh sách Hẹn Tái khám (UcAppointmentGrid)",
+      "menuPath": "Lịch hẹn > Danh sách hẹn tái khám",
+      "componentLocation": "Nút [Xuất Excel] danh sách tái khám",
+      "lockedBehavior": "ToExcelOpenSafe: bảo vệ danh sách hẹn tái khám khi xuất file Excel",
+      "testInstruction": "Mở Lịch hẹn > Danh sách tái khám > Bấm [Xuất Excel] > Kiểm tra file tải về",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-7cb5-a892-1353e2dfd60c",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Lịch sử Điều trị Chi tiết (UcOrderItemTracks)",
+      "menuPath": "Điều trị > Chi tiết công đoạn điều trị",
+      "componentLocation": "Nút [Xuất Excel] lịch sử điều trị",
+      "lockedBehavior": "ToExcelOpenSafe: bảo vệ lịch sử điều trị bệnh nhân khi xuất file Excel",
+      "testInstruction": "Mở Chi tiết điều trị > Bấm [Xuất Excel] > Kiểm tra file tải về không có SĐT",
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "01a0ce1d-eb9d-734f-b25b-318b2a2dc94c",
+      "domain": "Báo cáo & Xuất Excel (Zero-Phone Export)",
+      "screenName": "Danh mục Khách hàng (DMKhachhang)",
+      "menuPath": "Khách hàng > Danh mục khách hàng",
+      "componentLocation": "Nút [Xuất Excel] danh mục khách",
+      "lockedBehavior": "ToExcelOpenSafe: file Excel danh mục khách hàng triệt tiêu 100% cột SĐT",
+      "testInstruction": "Mở Danh mục khách hàng > Bấm [Xuất Excel] > Kiểm tra file tải về không có SĐT",
       "status": "pending",
       "note": ""
     }

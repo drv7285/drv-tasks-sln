@@ -4,8 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- BẮT BUỘC: chặn SDK chèn <aspNetCore> vào web.config khi publish.
+         Bỏ dòng này => IIS chuyển sang chạy app in-process => site trả 500. -->
     <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <!-- BẮT BUỘC: tắt cả default Content lẫn default None.
+         Tắt Content để index.html / assets / tasks được khai báo tường minh bên dưới.
+         Tắt None để web.config và RULES.md không bị trùng item
+         (NETSDK1022 - Visual Studio chặn build, chỉ báo "Build failed"). -->
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
     <ProjectGuid>{A0CCCD55-555E-756C-B330-1E3D6AF8C6EB}</ProjectGuid>
   </PropertyGroup>
 

@@ -12,4 +12,11 @@ app.UseStaticFiles(new StaticFileOptions
     ServeUnknownFileTypes = true
 });
 
-app.Run("http://localhost:5555");
+if (app.Environment.IsDevelopment())
+{
+    app.Run("http://localhost:5555");
+}
+else
+{
+    app.Run();
+}
