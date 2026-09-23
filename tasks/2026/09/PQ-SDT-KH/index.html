@@ -273,8 +273,11 @@
         <span class="text-xs text-slate-500 font-medium">Quy mô kiểm thử</span>
         <p class="text-2xl font-bold text-slate-900 mt-1">7 <span class="text-xs text-slate-400 font-normal">phân hệ</span> • 27 <span class="text-xs text-slate-400 font-normal">màn hình</span></p>
       </div>
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <span class="text-xs text-slate-500 font-medium">Minh chứng thực tế</span>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-indigo-400 hover:shadow-md transition group" onclick="switchViewMode('gallery')" title="Bấm để chuyển nhanh sang xem toàn bộ Minh chứng Ảnh">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-500 font-medium">Minh chứng thực tế</span>
+          <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100 group-hover:bg-indigo-600 group-hover:text-white transition">Xem ảnh ➔</span>
+        </div>
         <p class="text-2xl font-bold text-indigo-600 mt-1">4 <span class="text-xs text-slate-400 font-normal">ảnh chụp app</span></p>
       </div>
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
@@ -380,9 +383,9 @@
 
       updateUserUI();
 
-      // 2. Tải data.json gốc
+      // 2. Tải data.json gốc (kèm cache buster Date.now để không bao giờ bị lưu cache cũ trên trình duyệt)
       try {
-        const res = await fetch('data.json');
+        const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
         rawTaskData = await res.json();
       } catch (err) {
         console.error('Không thể tải data.json:', err);
@@ -392,8 +395,13 @@
       // 3. Tải trạng thái lưu trữ riêng của user hiện tại
       loadUserAcceptanceData();
 
-      // 4. Render chế độ xem mặc định
-      renderCurrentView();
+      // 4. Kiểm tra URL nếu có yêu cầu mở tab Gallery trước (?view=gallery hoặc ?tab=gallery)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('view') === 'gallery' || urlParams.get('tab') === 'gallery') {
+        switchViewMode('gallery');
+      } else {
+        renderCurrentView();
+      }
     }
 
     // Cập nhật thông tin User trên Header
@@ -405,7 +413,7 @@
     }
 
     function getUserStorageKey() {
-      return `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}_v2`;
+      return `drv_tasks_acceptance_${rawTaskData.taskCode}_${currentUser.username}_v3`;
     }
 
     // Tải dữ liệu nghiệm thu riêng của User từ localStorage
@@ -613,10 +621,10 @@
                     </div>
 
                     ${item.image ? `
-                      <button type="button" onclick="openLightbox('${item.image}', '${item.screenName}')" class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold rounded-md border border-purple-200 transition" title="Bấm xem ảnh chụp thực tế">
-                        <i class="fa-solid fa-image text-purple-500"></i>
-                        <span>📷 Xem ảnh app</span>
-                      </button>
+                      <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-bold rounded-md border border-purple-200">
+                        <i class="fa-solid fa-camera text-purple-600"></i>
+                        <span>Có minh chứng ảnh</span>
+                      </span>
                     ` : ''}
                   </div>
 
@@ -631,6 +639,29 @@
                       <span class="text-emerald-950">${item.testInstruction}</span>
                     </div>
                   </div>
+
+                  <!-- Screenshot Thumbnail Preview (nếu có ảnh) -->
+                  ${item.image ? `
+                    <div class="mt-2 p-2.5 bg-gradient-to-r from-purple-50/70 via-indigo-50/40 to-slate-50 rounded-xl border border-purple-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                      <div class="relative cursor-pointer shrink-0 group" onclick="openLightbox('${item.image}', '${item.screenName}')" title="Nhấp để phóng to ảnh chụp màn hình">
+                        <img src="${item.image}" alt="${item.screenName}" class="h-16 w-32 sm:h-20 sm:w-40 object-cover rounded-lg border-2 border-purple-300 shadow-sm group-hover:scale-105 group-hover:border-purple-500 transition duration-200 bg-white">
+                        <span class="absolute bottom-1 right-1 bg-purple-700/85 backdrop-blur-xs text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow">
+                          <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </span>
+                      </div>
+                      <div class="text-xs space-y-1">
+                        <div class="font-bold text-purple-900 flex items-center space-x-1.5">
+                          <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                          <span>Ảnh chụp thực tế màn hình (WinForms Dev):</span>
+                        </div>
+                        <p class="text-[11px] text-slate-600 leading-relaxed">Đã áp dụng khóa SĐT theo đúng yêu cầu bảo mật. Bấm vào ảnh để phóng to toàn màn hình.</p>
+                        <button type="button" onclick="openLightbox('${item.image}', '${item.screenName}')" class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline inline-flex items-center space-x-1">
+                          <span>Xem chi tiết ảnh phóng to</span>
+                          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                        </button>
+                      </div>
+                    </div>
+                  ` : ''}
 
                   <!-- Note input -->
                   <div class="pt-1">
