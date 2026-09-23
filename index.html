@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Nghiệm Thu Tasks Phần Mềm DRV (Port 5555)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="assets/js/uuidv7.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+  <!-- MODAL ĐĂNG NHẬP -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-slate-100">
+      <div class="text-center mb-6">
+        <div class="inline-flex p-4 rounded-2xl bg-indigo-50 text-indigo-600 mb-3">
+          <i class="fa-solid fa-shield-halved text-3xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900">Cổng Nghiệm Thu Tasks</h2>
+        <p class="text-sm text-slate-500 mt-1">Đăng nhập tài khoản để vào xem và ký duyệt</p>
+      </div>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tài khoản</label>
+          <input type="text" id="loginUsername" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Tài khoản (chi hoặc drv)" required autofocus>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Mật khẩu</label>
+          <input type="password" id="loginPassword" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Mật khẩu" required>
+        </div>
+        <p id="loginErrorMsg" class="text-rose-600 text-xs hidden text-center font-medium">Tài khoản hoặc mật khẩu không đúng!</p>
+        <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg shadow-indigo-200 transition">Đăng nhập</button>
+        <div class="pt-2 text-center text-xs text-slate-400">
+          Boss: <b>chi / chi</b> &nbsp;|&nbsp; Kỹ thuật: <b>drv / drv</b>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="p-2.5 bg-indigo-600 text-white rounded-xl shadow-md shadow-indigo-200">
+          <i class="fa-solid fa-list-check text-xl"></i>
+        </span>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">Cổng Nghiệm Thu Tasks (Acceptance Portal)</h1>
+          <p class="text-xs text-slate-500">Hệ thống nghiệm thu & ký duyệt thay đổi phần mềm DRV Dental</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <div id="userInfoBar" class="flex items-center space-x-2 px-3 py-1.5 bg-slate-100 rounded-lg text-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-slate-500">Người duyệt:</span>
+          <span id="userNameLabel" class="font-bold text-slate-800">Chị Chi</span>
+          <span id="userRoleBadge" class="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded text-[10px] font-semibold uppercase">Quản lý</span>
+        </div>
+        <button id="btnLogout" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg transition" title="Đăng xuất">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD MAIN -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- BANNER CHÀO MỪNG -->
+    <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl space-y-2">
+        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/20 text-white uppercase tracking-wider backdrop-blur-sm">DRV Dental Acceptance Portal</span>
+        <h2 class="text-2xl font-bold">Chào mừng Boss vào kiểm tra & nghiệm thu các tasks</h2>
+        <p class="text-sm text-indigo-100">Bấm vào từng task dưới đây để xem danh mục các màn hình bị ảnh hưởng, đánh dấu kiểm tra và xuất file JSON báo cáo nghiệm thu chính thức.</p>
+      </div>
+      <div class="absolute right-4 bottom-0 opacity-15 text-8xl pointer-events-none">
+        <i class="fa-solid fa-clipboard-check"></i>
+      </div>
+    </div>
+
+    <!-- DANH SÁCH CÁC TASKS CẦN DUYỆT -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+          <i class="fa-solid fa-folder-open text-indigo-600"></i>
+          <span>Danh sách Tasks cần nghiệm thu</span>
+        </h3>
+        <span class="text-xs text-slate-500 font-medium">Năm 2026 / Tháng 09</span>
+      </div>
+
+      <!-- Task Card: PQ-SDT-KH -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-mono font-bold bg-indigo-50 text-indigo-700 rounded-md border border-indigo-200">PQ-SDT-KH</span>
+              <span class="px-2.5 py-0.5 text-xs font-semibold bg-amber-50 text-amber-700 rounded-full border border-amber-200">Chờ Boss Nghiệm thu</span>
+              <span class="text-xs text-slate-400">23/09/2026</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900">Phân quyền & Khóa ẩn số điện thoại khách hàng toàn hệ thống</h4>
+            <p class="text-sm text-slate-600">Khóa ẩn triệt để cột và ô số điện thoại khách hàng trên 27 giao diện người dùng theo chuẩn 3 lớp + che mờ ***, không cho mở lại qua Column Chooser và chặn rò rỉ khi xuất file Excel.</p>
+            <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-1">
+              <span><i class="fa-solid fa-desktop mr-1 text-slate-400"></i> 27 giao diện người dùng</span>
+              <span><i class="fa-solid fa-shield-check mr-1 text-emerald-500"></i> 3 Lớp Bảo vệ + Mask ***</span>
+              <span><i class="fa-solid fa-file-excel mr-1 text-emerald-600"></i> An toàn khi xuất Excel</span>
+            </div>
+          </div>
+
+          <div class="sm:shrink-0">
+            <a href="tasks/2026/09/PQ-SDT-KH/index.html" class="inline-flex items-center space-x-2 px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-lg shadow-indigo-200 transition">
+              <span>Mở trang nghiệm thu</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HƯỚNG DẪN CẤU HÌNH IIS (DÀNH CHO KỸ THUẬT) -->
+    <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1">
+      <div class="font-bold text-slate-800 flex items-center space-x-1.5 mb-1">
+        <i class="fa-solid fa-server text-indigo-600"></i>
+        <span>Thông tin triển khai máy chủ IIS:</span>
+      </div>
+      <p>• <b>Thư mục vật lý</b>: <code class="bg-white px-1.5 py-0.5 rounded border">X:\acc\drv\slns\drv-tasks-sln</code></p>
+      <p>• <b>Cổng dịch vụ IIS</b>: Port <code class="bg-white px-1.5 py-0.5 rounded border">5555</code></p>
+      <p>• <b>Đường dẫn truy cập nội bộ</b>: <a href="http://localhost:5555" class="text-indigo-600 font-semibold underline">http://localhost:5555</a> hoặc <code class="bg-white px-1.5 py-0.5 rounded border">http://&lt;IP-LAN&gt;:5555</code></p>
+      <p>• <b>Quy chuẩn tài liệu</b>: Xem chi tiết tại tệp <code class="bg-white px-1.5 py-0.5 rounded border">RULES.md</code> tại thư mục gốc.</p>
+    </div>
+
+  </main>
+
+  <script>
+    function checkAuth() {
+      const user = AuthSystem.getCurrentUser();
+      if (!user) {
+        document.getElementById('loginModal').classList.remove('hidden');
+      } else {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('userNameLabel').textContent = user.displayName;
+        document.getElementById('userRoleBadge').textContent = user.title;
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('loginUsername').value;
+      const p = document.getElementById('loginPassword').value;
+      const loggedIn = AuthSystem.login(u, p);
+      if (loggedIn) {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('userNameLabel').textContent = loggedIn.displayName;
+        document.getElementById('userRoleBadge').textContent = loggedIn.title;
+      } else {
+        document.getElementById('loginErrorMsg').classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      AuthSystem.logout();
+      document.getElementById('loginModal').classList.remove('hidden');
+    });
+
+    checkAuth();
+  </script>
+</body>
+</html>

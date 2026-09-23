@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nghiệm Thu: Phân Quyền & Khóa Ẩn SĐT Khách Hàng (Task PQ-SDT-KH)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="../../../assets/js/uuidv7.js"></script>
+  <script src="../../../assets/js/auth.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+  <!-- MODAL ĐĂNG NHẬP (NẾU CHƯA ĐĂNG NHẬP) -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-slate-100">
+      <div class="text-center mb-6">
+        <div class="inline-flex p-4 rounded-2xl bg-indigo-50 text-indigo-600 mb-3">
+          <i class="fa-solid fa-user-shield text-3xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900">Đăng Nhập Nghiệm Thu</h2>
+        <p class="text-sm text-slate-500 mt-1">Vui lòng đăng nhập để thực hiện đánh giá nghiệm thu</p>
+      </div>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tài khoản</label>
+          <input type="text" id="loginUsername" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Nhập tài khoản (vd: chi hoặc drv)" required autofocus>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Mật khẩu</label>
+          <input type="password" id="loginPassword" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Nhập mật khẩu" required>
+        </div>
+        <p id="loginErrorMsg" class="text-rose-600 text-xs hidden text-center font-medium">Tài khoản hoặc mật khẩu không chính xác!</p>
+        <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg shadow-indigo-200 transition">Đăng nhập</button>
+        <div class="pt-2 text-center text-xs text-slate-400">
+          Gợi ý: Boss đăng nhập <b>chi / chi</b> | Kỹ thuật <b>drv / drv</b>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- HEADER TRANG NGHIỆM THU -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <a href="../../../index.html" class="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition" title="Về trang chủ danh sách Tasks">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <span class="p-2.5 bg-indigo-600 text-white rounded-xl shadow-md shadow-indigo-200">
+          <i class="fa-solid fa-phone-slash text-xl"></i>
+        </span>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2 py-0.5 text-xs font-mono font-bold bg-indigo-50 text-indigo-700 rounded border border-indigo-200">PQ-SDT-KH</span>
+            <h1 class="text-lg font-bold text-slate-900 leading-tight">Phân quyền & Khóa ẩn SĐT Khách hàng</h1>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">Bảng kiểm tra & nghiệm thu 27 giao diện người dùng trên phần mềm</p>
+        </div>
+      </div>
+
+      <!-- User Info & Actions -->
+      <div class="flex items-center space-x-3">
+        <div id="userInfoBar" class="hidden sm:flex items-center space-x-2 px-3 py-1.5 bg-slate-100 rounded-lg text-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-slate-500">Người duyệt:</span>
+          <span id="userNameLabel" class="font-bold text-slate-800">Chị Chi</span>
+          <span id="userRoleBadge" class="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded text-[10px] font-semibold uppercase">Quản lý</span>
+        </div>
+
+        <button id="btnExportJson" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-md shadow-emerald-200 transition flex items-center space-x-2">
+          <i class="fa-solid fa-file-arrow-down"></i>
+          <span>Xuất JSON Nghiệm thu</span>
+        </button>
+
+        <button id="btnLogout" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg transition" title="Đổi tài khoản">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- KPI STATS -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-xs text-slate-500 font-medium">Tổng số giao diện kiểm tra</span>
+        <p class="text-2xl font-bold text-slate-900 mt-1">27 <span class="text-xs text-slate-400 font-normal">màn hình</span></p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-xs text-slate-500 font-medium">Chuẩn khóa an toàn</span>
+        <p class="text-2xl font-bold text-indigo-600 mt-1">3 Lớp + Mask</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-xs text-slate-500 font-medium">Tiến độ nghiệm thu</span>
+        <p id="statsPassedCount" class="text-2xl font-bold text-emerald-600 mt-1">0 / 27</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center">
+        <div class="flex justify-between items-center text-xs text-slate-500 mb-1">
+          <span>Tỷ lệ hoàn thành</span>
+          <span id="statsPercent" class="font-bold text-slate-800">0%</span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2.5">
+          <div id="statsProgressBar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER TABS & BULK ACTIONS -->
+    <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+      <div class="flex flex-wrap items-center gap-1.5" id="domainFilterContainer">
+        <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white" data-domain="ALL">Tất cả (27)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Quản trị & Phân quyền">Quản trị (2)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Hồ sơ Khách hàng & Lễ tân">Hồ sơ & Lễ tân (6)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Quản lý Lịch hẹn">Lịch hẹn (3)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Chăm sóc Khách hàng (CSKH)">CSKH (4)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Tin nhắn SMS & Zalo">SMS & Zalo (4)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Khám chữa trị & Labo">Điều trị & Labo (5)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200" data-domain="Thu ngân & Kế toán">Thu ngân (3)</button>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <button id="btnCheckAll" class="px-3 py-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg transition flex items-center space-x-1">
+          <i class="fa-solid fa-check-double"></i>
+          <span>Duyệt đạt tất cả</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- DANH SÁCH MÀN HÌNH KIỂM TRA -->
+    <div id="screenItemsList" class="space-y-3">
+      <!-- Render dynamic items by JS -->
+    </div>
+
+  </main>
+
+  <script>
+    // LOAD DỮ LIỆU & QUẢN LÝ TRẠNG THÁI
+    let taskData = null;
+    let currentFilter = 'ALL';
+
+    async function initPage() {
+      // 1. Kiểm tra xác thực
+      const user = AuthSystem.getCurrentUser();
+      if (!user) {
+        document.getElementById('loginModal').classList.remove('hidden');
+      } else {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('userNameLabel').textContent = user.displayName;
+        document.getElementById('userRoleBadge').textContent = user.title;
+      }
+
+      // 2. Tải data.json
+      try {
+        const res = await fetch('data.json');
+        taskData = await res.json();
+      } catch (err) {
+        console.error('Không thể tải data.json, sử dụng bộ nhớ cache:', err);
+      }
+
+      renderList();
+    }
+
+    // Xử lý Login Form
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('loginUsername').value;
+      const p = document.getElementById('loginPassword').value;
+      const loggedIn = AuthSystem.login(u, p);
+      if (loggedIn) {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('userNameLabel').textContent = loggedIn.displayName;
+        document.getElementById('userRoleBadge').textContent = loggedIn.title;
+        renderList();
+      } else {
+        document.getElementById('loginErrorMsg').classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      AuthSystem.logout();
+      document.getElementById('loginModal').classList.remove('hidden');
+    });
+
+    // Xử lý Filter Tabs
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('active', 'bg-indigo-600', 'text-white');
+          b.classList.add('bg-slate-100', 'text-slate-600');
+        });
+        btn.classList.add('active', 'bg-indigo-600', 'text-white');
+        btn.classList.remove('bg-slate-100', 'text-slate-600');
+        currentFilter = btn.getAttribute('data-domain');
+        renderList();
+      });
+    });
+
+    // Cập nhật trạng thái từng item
+    window.toggleItemStatus = (id, newStatus) => {
+      const item = taskData.items.find(x => x.id === id);
+      if (item) {
+        item.status = newStatus;
+        renderList();
+      }
+    };
+
+    window.updateItemNote = (id, noteVal) => {
+      const item = taskData.items.find(x => x.id === id);
+      if (item) {
+        item.note = noteVal;
+      }
+    };
+
+    // Duyệt đạt tất cả
+    document.getElementById('btnCheckAll').addEventListener('click', () => {
+      taskData.items.forEach(item => item.status = 'passed');
+      renderList();
+    });
+
+    // Render danh sách giao diện
+    function renderList() {
+      if (!taskData || !taskData.items) return;
+
+      const container = document.getElementById('screenItemsList');
+      container.innerHTML = '';
+
+      let passedCount = 0;
+      const filtered = taskData.items.filter(item => {
+        if (item.status === 'passed') passedCount++;
+        return currentFilter === 'ALL' || item.domain === currentFilter;
+      });
+
+      // Cập nhật thống kê
+      document.getElementById('statsPassedCount').textContent = `${passedCount} / ${taskData.items.length}`;
+      const pct = Math.round((passedCount / taskData.items.length) * 100);
+      document.getElementById('statsPercent').textContent = `${pct}%`;
+      document.getElementById('statsProgressBar').style.width = `${pct}%`;
+
+      filtered.forEach((item, index) => {
+        const isPassed = item.status === 'passed';
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-5 rounded-xl border transition-all ${isPassed ? 'bg-white border-slate-200' : 'bg-rose-50/50 border-rose-200'}`;
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <!-- Left Info -->
+            <div class="space-y-2 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-slate-400">#${String(index + 1).padStart(2, '0')}</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">${item.domain}</span>
+                <h3 class="text-base font-bold text-slate-900">${item.screenName}</h3>
+              </div>
+
+              <!-- Menu Path -->
+              <div class="flex items-center text-xs text-indigo-700 bg-indigo-50/70 px-3 py-1.5 rounded-lg w-fit border border-indigo-100">
+                <i class="fa-solid fa-location-arrow mr-1.5"></i>
+                <span class="font-semibold mr-1">Menu App:</span>
+                <span>${item.menuPath}</span>
+              </div>
+
+              <!-- Behavior Details -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
+                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                  <span class="font-semibold text-slate-600 block mb-0.5">Vị trí & Biểu hiện khi khóa:</span>
+                  <span class="text-slate-800">${item.lockedBehavior}</span>
+                </div>
+                <div class="bg-emerald-50/60 p-2.5 rounded-lg border border-emerald-100">
+                  <span class="font-semibold text-emerald-800 block mb-0.5">Thao tác Boss test nhanh:</span>
+                  <span class="text-emerald-900">${item.testInstruction}</span>
+                </div>
+              </div>
+
+              <!-- Note input -->
+              <div class="pt-1">
+                <input type="text" value="${item.note || ''}" onchange="updateItemNote('${item.id}', this.value)" placeholder="Nhập ghi chú hoặc phản hồi của Boss về màn hình này (nếu có)..." class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg focus:border-indigo-400 outline-none bg-slate-50 focus:bg-white transition">
+              </div>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
+              <div class="flex items-center space-x-1.5 p-1 bg-slate-100 rounded-xl">
+                <button onclick="toggleItemStatus('${item.id}', 'passed')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1 ${isPassed ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Đạt</span>
+                </button>
+                <button onclick="toggleItemStatus('${item.id}', 'rejected')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1 ${!isPassed ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Chưa đạt</span>
+                </button>
+              </div>
+              <span class="font-mono text-[10px] text-slate-400" title="ID bất biến UUID v7">${item.id.substring(0, 18)}...</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // XUẤT FILE JSON NGHIỆM THU
+    document.getElementById('btnExportJson').addEventListener('click', () => {
+      const user = AuthSystem.getCurrentUser() || { username: 'chi', displayName: 'Chị Chi', role: 'approver' };
+      const acceptanceId = generateUuidV7();
+      const nowIso = new Date().toISOString();
+
+      const passedCount = taskData.items.filter(x => x.status === 'passed').length;
+      const isFullApproved = passedCount === taskData.items.length;
+
+      const reportJson = {
+        acceptanceId: acceptanceId,
+        taskId: taskData.taskId,
+        taskCode: taskData.taskCode,
+        taskTitle: taskData.taskTitle,
+        reviewedAt: nowIso,
+        reviewer: {
+          username: user.username,
+          displayName: user.displayName,
+          role: user.role,
+          title: user.title
+        },
+        summary: {
+          totalScreens: taskData.items.length,
+          passedScreens: passedCount,
+          failedScreens: taskData.items.length - passedCount,
+          completionRate: `${Math.round((passedCount / taskData.items.length) * 100)}%`,
+          overallStatus: isFullApproved ? "PASSED_APPROVED" : "PENDING_REVISION"
+        },
+        items: taskData.items.map(it => ({
+          id: it.id,
+          domain: it.domain,
+          screenName: it.screenName,
+          menuPath: it.menuPath,
+          status: it.status,
+          note: it.note || ""
+        }))
+      };
+
+      // Tải file JSON về máy
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reportJson, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `acceptance-${taskData.taskCode}-${acceptanceId.substring(0, 8)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      alert(`✅ Đã xuất file JSON nghiệm thu thành công!\nMã kiểm duyệt: ${acceptanceId}\nNgười duyệt: ${user.displayName} (${user.title})`);
+    });
+
+    // Khởi chạy khi load trang
+    initPage();
+  </script>
+</body>
+</html>
