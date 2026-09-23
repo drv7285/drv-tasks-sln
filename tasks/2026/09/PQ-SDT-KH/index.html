@@ -227,6 +227,46 @@
   <!-- MAIN CONTENT -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
+    <!-- BANNER HƯỚNG DẪN MÔI TRƯỜNG KIỂM THỬ (CHỈ TEST TRÊN BẢN DEVELOPMENT 3.1.4+) -->
+    <div class="bg-gradient-to-r from-amber-50 via-orange-50/60 to-amber-50 p-4 sm:p-5 rounded-2xl border-2 border-amber-300 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-start sm:items-center space-x-4">
+        <!-- App Desktop Icon with zoom click -->
+        <div class="relative cursor-pointer shrink-0 group" onclick="openLightbox('images/drv-base-development.png', 'Biểu tượng ứng dụng DRV BASE Development')" title="Bấm xem phóng to icon">
+          <div class="w-16 h-16 rounded-2xl shadow-md border-2 border-amber-300 bg-sky-500 flex items-center justify-center overflow-hidden p-1 group-hover:scale-105 transition">
+            <img src="images/drv-base-development.png" alt="DRV BASE Development" class="w-full h-full object-contain">
+          </div>
+          <span class="absolute -bottom-1 -right-1 bg-amber-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow" title="Xem icon Desktop">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-600 text-white flex items-center space-x-1">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>LƯU Ý QUAN TRỌNG KHI KIỂM THỬ</span>
+            </span>
+            <span class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-white text-rose-700 border border-amber-300 shadow-xs">
+              Yêu cầu phiên bản: 3.1.4+ (Development)
+            </span>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">
+            Vui lòng mở ứng dụng <span class="text-amber-800 underline font-extrabold">DRV BASE Development</span> trên Desktop để kiểm tra
+          </h2>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            ⚠️ <b>Tuyệt đối không kiểm tra trên phiên bản Production</b>. Tính năng phân quyền & khóa bảo vệ số điện thoại khách hàng 3 lớp được phát hành và hỗ trợ từ <b>phiên bản 3.1.4+</b> trên môi trường Development.
+          </p>
+        </div>
+      </div>
+
+      <div class="shrink-0 flex items-center space-x-2 self-end md:self-center">
+        <button onclick="openLightbox('images/drv-base-development.png', 'Biểu tượng ứng dụng DRV BASE Development')" class="px-3.5 py-2 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-desktop text-amber-700"></i>
+          <span>Xem Icon Desktop</span>
+        </button>
+      </div>
+    </div>
+
     <!-- KPI STATS CARDS -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">

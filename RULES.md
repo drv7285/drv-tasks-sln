@@ -72,6 +72,7 @@ Trên giao diện nghiệm thu của Boss:
   3. *Vị trí trên giao diện*: Cột bảng, ô nhập liệu, ô tìm kiếm hay tiêu đề form.
   4. *Hành vi khi bị khóa*: Nêu rõ biểu hiện thực tế (Ẩn cột, che `***`, nền xám, chặn xuất Excel).
   5. *Hướng dẫn kiểm tra nhanh*: Hướng dẫn 1 thao tác cụ thể để Boss kiểm tra ngay trên app.
+  6. *Môi trường & Phiên bản ứng dụng kiểm thử*: Phải nêu rõ phiên bản app hỗ trợ (vd: `3.1.4+`) và chỉ dẫn người dùng mở đúng ứng dụng trên môi trường Development (như `DRV BASE Development`), tuyệt đối không test trên Production.
 
 ---
 
